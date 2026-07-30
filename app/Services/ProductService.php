@@ -20,17 +20,11 @@ class ProductService
         )
         ->when(
             $filters['min_price'] ?? null,
-            fn ($q, $min_price) => $q->where('price', '>', $min_price)
-            ->orWhere('price', '=', $min_price)
+            fn ($q, $min_price) => $q->where('price', '>=', $min_price)
         )
         ->when(
             $filters['max_price'] ?? null,
             fn ($q, $max_price) => $q->where('price', '<=', $max_price)
-            ->orWhere('price', '=', $max_price)
-        )
-        ->when(
-            $filters['stock'] === 'in_stock' ?? null,
-            fn ($q, $stock) => $q->where('stock', '>', 0)
         );
         return $products->paginate(10);
 

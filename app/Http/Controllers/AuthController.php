@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PharIo\Manifest\Email;
 
 class AuthController extends Controller
 {
@@ -20,14 +21,21 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
-
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            if (auth()->user()->role === 'admin') {
+                return redirect()->route('home');
+            }
+            return redirect()->route('home');
         }
-
-        return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng.',
-        ])->onlyInput('email');
+        return redirect()->back()->withErrors(
+            ['email' => 'Email hoặc mật khẩu không đúng']
+        )->onlyInput('email');
+    }
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 }

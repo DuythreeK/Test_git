@@ -17,8 +17,15 @@
     <a href="{{ route('categories.index') }}">Categories</a> |
     <a href="{{ route('orders.index') }}">Orders</a>
 
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">
+            Log out
+        </button>
 
+    </form>
     <hr>
+
 
     @yield('content')
 

@@ -47,9 +47,10 @@ class DashboardService
     public function getTopExpensiveProducts()
     {
         $topExpensiveProducts = Product::query()
-               ->orderByDesc('price')
-               ->limit(5)
-               ->get();
+            ->withCount('orderItems')
+            ->orderByDesc('price')
+            ->limit(5)
+            ->get();
         return $topExpensiveProducts;
     }
     public function getTopSellingProducts()

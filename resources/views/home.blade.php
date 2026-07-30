@@ -1,10 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Dashboard</h2>
+    <h2>Home</h2>
 
     <ul>
 
+        <li>
+            <a href="{{ route('dashboard.index') }}">
+                Dashboard
+            </a>
+        </li>
         <li>
             <a href="{{ route('products.index') }}">
                 Manage Products
