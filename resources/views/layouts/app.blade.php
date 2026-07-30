@@ -17,6 +17,7 @@
     <a href="{{ route('categories.index') }}">Categories</a> |
     <a href="{{ route('orders.index') }}">Orders</a>
 
+
     <hr>
 
     @yield('content')
