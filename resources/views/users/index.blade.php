@@ -25,7 +25,7 @@
     </table>
     <a href="{{ route('users.create') }}">
         <button>
-            Tao moi
+            Tạo mới
         </button>
     </a>
     {{ $users -> links() }}

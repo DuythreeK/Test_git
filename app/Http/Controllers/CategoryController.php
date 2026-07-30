@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -12,9 +14,25 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function index()
     {
         //
+        try {
+
+            $categories = $this->categoryService->getAll();
+            return view("categories.index", compact('categories'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to retrieve categories: ' . $e->getMessage());
+        }
+
     }
 
     /**
@@ -25,6 +43,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view("categories.create");
     }
 
     /**
@@ -33,9 +52,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpdateCategoryRequest $request)
     {
         //
+        $validated = $request->validated();
+        $this->categoryService->store($validated);
+        return redirect()->route('categories.index');
+
+
     }
 
     /**
@@ -58,6 +82,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        return view("categories.edit", ["category" => $category]);
     }
 
     /**
@@ -67,9 +92,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
+        $validated = $request->validated();
+        $this->categoryService->update($validated, $category);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -81,5 +109,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $this->categoryService->destroy($category);
+        return redirect()->route('categories.index');
     }
 }

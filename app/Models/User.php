@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'address',
+        'role',
     ];
 
     /**
@@ -42,7 +46,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function oder(): HasMany{
+
+    // protected function firstName(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => ucfirst($value),
+    //     );
+    // }
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+    protected function casts(): array{
+        return [
+            'name' => 'string',
+            'email' => 'string',
+            'password' => 'string',
+        ];
+    }
+        public function orders(): HasMany{
         return $this->hasMany(Order::class);
     }
 }

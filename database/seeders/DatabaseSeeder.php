@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\OrderItem;
 // use Illuminate\Support\Facades\DB
 // use Illuminate\Database\Userseeder
 class DatabaseSeeder extends Seeder
@@ -15,6 +21,44 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(Userseeder::class);
+        // $this->call(Userseeder::class);
+
+        //CATEGORY
+       $categries = Category::factory(5)->create();
+
+        //PRODUCT
+        $products = Product::factory(50)->make()
+        ->each(function ($product) use ($categries) {
+            $product->category_id = $categries->random()->id;
+            $product->save();
+        });
+
+        //USER
+        $users = User::factory(10)->create();
+
+        //ORDER
+        $users->each(function ($user) use ($products){
+
+            $orders =Order::factory(rand(2,5))-> make();
+
+            foreach($orders as $order){
+                $order->user_id = $user->id;
+                $order->save();
+                $total = 0;
+                for($i = 0; $i < rand(1, 5); $i++ ){
+                    $product = $products->random();
+                    $quantity = rand(1, 3);
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $product->id,
+                        'quantity' => $quantity,
+                        'price' => $product->price,
+                        'subtotal' => $product->price * $quantity,
+                    ]);
+                    $total += $product->price * $quantity;
+                }
+                $order->update(['total_price' => $total]);
+            }
+        });
     }
 }

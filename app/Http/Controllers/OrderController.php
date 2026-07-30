@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\OrderService;
 
 class OrderController extends Controller
 {
@@ -12,9 +13,15 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $orderService;
+    public function __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
     public function index()
     {
-        //
+        $orders = $this->orderService->getAll();
+        return view("orders.index", ["orders" => $orders]);
     }
 
     /**
@@ -46,7 +53,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order = $this->orderService->getById($order->id);
+        return view("orders.show", ["order" => $order]);
     }
 
     /**

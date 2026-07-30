@@ -3,17 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\DashboardService;
 
-class PhotoController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $dashboardService;
+    public function __construct()
+    {
+
+        $this->dashboardService = new DashboardService();
+    }
     public function index()
     {
-        //
+        //]
+        $totalProducts = $this->dashboardService->getTotalProducts();
+        $totalCategories = $this->dashboardService->getTotalCategories();
+        $totalUsers = $this->dashboardService->getTotalUsers();
+        $totalOrders = $this->dashboardService->getTotalOrders();
+        $totalRevenue = $this->dashboardService->getTotalRevenue();
+        $totalInventoryValue = $this->dashboardService->getTotalInventoryValue();
+        $topExpensiveProducts = $this->dashboardService->getTopExpensiveProducts();
+        $topSellingProducts = $this->dashboardService->getTopSellingProducts();
+        $topStockProducts = $this->dashboardService->getTopStockProducts();
+        return view('dashboard.index', compact(
+            'totalProducts',
+            'totalCategories',
+            'totalUsers',
+            'totalOrders',
+            'totalRevenue',
+            'totalInventoryValue',
+            'topExpensiveProducts',
+            'topSellingProducts',
+            'topStockProducts'
+        ));
     }
 
     /**
