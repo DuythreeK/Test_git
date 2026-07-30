@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class CustomerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->role == 'admin') {
+        if (auth()->check() && auth()->user()->role == 'customer') {
             return $next($request);
         }
-        abort(403, 'Bạn không có quyền truy cập chức năng quản trị');
+        abort(403);
     }
 }

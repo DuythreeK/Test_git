@@ -25,6 +25,10 @@ class ProductService
         ->when(
             $filters['max_price'] ?? null,
             fn ($q, $max_price) => $q->where('price', '<=', $max_price)
+        )
+        ->when(
+            $filters['sort'] ?? null,
+            fn ($q, $sort) => $q->orderBy('price', $sort)
         );
         return $products->paginate(10);
 

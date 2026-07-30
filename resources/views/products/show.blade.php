@@ -40,6 +40,6 @@
     </p>
 
     @if ($product->image)
-        <img src="{{ asset($product->image) }}" width="200">
+        <img src="{{ asset($product->image) }}" width="200px">
     @endif
 @endsection

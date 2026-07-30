@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Customer\ProductController as CustomerProductController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -26,8 +27,11 @@ Route::get('/', function () {
     if (!auth()->check()) {
         return redirect('/login');
     }
-    if (auth()->user()->role === 'admin' || auth()->user()->role === 'customer') {
+    if (auth()->user()->role === 'admin') {
         return view('home');
+    }
+    if (auth()->user()->role === 'customer') {
+        return view('customer.home');
     }
 })->name('home');
 //Guest Routes
@@ -36,11 +40,17 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
 });
 
+//Auth Routes
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+
+//Customer Routes
+Route::prefix('customer')->middleware('customer')->name('customer.')->group(function () {
+    Route::resource('products', CustomerProductController::class);
 });
 
 //Admin Routes
@@ -50,7 +60,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('dashboard', DashboardController::class);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });
 
 // Route::get('user/name/{name?}', function (?string $name = 'John'){
