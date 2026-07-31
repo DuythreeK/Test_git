@@ -122,13 +122,13 @@
 
         </a>
 
-        {{-- &nbsp;&nbsp;
+        &nbsp;&nbsp;
 
         <a href="{{ route('customer.orders.checkout') }}">
 
             Checkout
 
-        </a> --}}
+        </a>
     @else
         <h3>Your cart is empty.</h3>
 
