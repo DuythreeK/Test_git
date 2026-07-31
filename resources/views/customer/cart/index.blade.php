@@ -11,12 +11,14 @@
             {{ session('success') }}
         </p>
     @endif
-
     @if ($cartItems->count())
 
         <table border="1" cellpadding="10" cellspacing="0">
 
             <tr>
+                <th>
+                    <input type="checkbox" id="check-all">
+                </th>
                 <th>Image</th>
                 <th>Product</th>
                 <th>Price</th>
@@ -36,6 +38,10 @@
                 @endphp
 
                 <tr>
+                    <td>
+                        <input type="checkbox" name="cart_items[]" value="{{ $item->id }}" class="item-checkbox"
+                            form="checkout-form">
+                    </td>
 
                     <td>
 
@@ -104,6 +110,11 @@
             @endforeach
 
         </table>
+        <form id="checkout-form"">
+            <button type="submit">
+                Check out
+            </button>
+        </form>
 
         <br>
 
@@ -121,14 +132,6 @@
             Continue Shopping
 
         </a>
-
-        &nbsp;&nbsp;
-
-        <a href="{{ route('customer.orders.checkout') }}">
-
-            Checkout
-
-        </a>
     @else
         <h3>Your cart is empty.</h3>
 
@@ -139,3 +142,10 @@
     @endif
 
 @endsection
+<script>
+    document.getElementById('check-all').addEventListener('change', function() {
+        document.querySelectorAll('.item-checkbox').forEach(item => {
+            item.checked = this.checked;
+        });
+    });
+</script>
