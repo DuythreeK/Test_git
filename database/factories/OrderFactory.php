@@ -19,12 +19,12 @@ class OrderFactory extends Factory
     {
         return [
             //
-            'user_id' => User::factory(),
-            'order_date'=> now(),
-            'status'=> $this->faker->randomElement(['pending', 'processing', 'shipping', 'completed']),
-            'total_price'=> 0,
-            'shipping_address'=> $this->faker->address(),
-            'note'=> $this->faker->sentence(),
+            // 'user_id' => User::factory(),
+            'order_date' => now(),
+            'status' => $this->faker->randomElement(['pending', 'processing', 'shipping', 'completed']),
+            'total_price' => 0,
+            'shipping_address' => $this->faker->address(),
+            'note' => $this->faker->sentence(),
         ];
     }
 }

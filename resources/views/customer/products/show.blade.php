@@ -55,6 +55,22 @@
         @endif
 
     </table>
+    <br><br>
+    @if ($product->stock > 0)
+        <form action="{{ route('customer.cart.store') }}" method = 'POST'>
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <label>Quantity</label>
+            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}">
+            <br><br>
+            <button type="submit">
+                Add to Cart
+            </button>
+        </form>
+    @else
+        <p><strong>Out of stock</strong></p>
+    @endif
+
 
     <br>
 

@@ -12,7 +12,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,14 +59,20 @@ class User extends Authenticatable
     {
         return ucfirst($value);
     }
-    protected function casts(): array{
+    protected function casts(): array
+    {
         return [
             'name' => 'string',
             'email' => 'string',
             'password' => 'string',
         ];
     }
-        public function orders(): HasMany{
+    public function orders(): HasMany
+    {
         return $this->hasMany(Order::class);
+    }
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 }

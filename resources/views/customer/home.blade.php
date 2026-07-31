@@ -10,13 +10,13 @@
                 Product List
             </a>
         </li>
-        {{-- <li>
-            <a href="{{ route('products.index') }}">
-                Manage Products
+        <li>
+            <a href="{{ route('customer.cart.index') }}">
+                Cart
             </a>
         </li>
 
-        <li>
+        {{-- <li>
             <a href="{{ route('categories.index') }}">
                 Manage Categories
             </a>

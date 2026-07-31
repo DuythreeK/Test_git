@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
 use Illuminate\Auth\Events\Logout;
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
 //Customer Routes
 Route::prefix('customer')->middleware('customer')->name('customer.')->group(function () {
     Route::resource('products', CustomerProductController::class);
+    Route::resource('cart', CartController::class);
 });
 
 //Admin Routes

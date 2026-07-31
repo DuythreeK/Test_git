@@ -11,9 +11,10 @@
 
     <hr>
 
-    {{-- <a href="{{ route('home') }}">Home</a> |
-    <a href="{{ route('dashboard.index') }}">Dashboard</a> |
-    <a href="{{ route('products.index') }}">Products</a> |
+    <a href="{{ route('home') }}">Home</a> |
+    <a href="{{ route('customer.products.index') }}">Product List</a>|
+    <a href="{{ route('customer.cart.index') }}">Cart</a> |
+    {{-- <a href="{{ route('products.index') }}">Products</a> |
     <a href="{{ route('categories.index') }}">Categories</a> |
     <a href="{{ route('orders.index') }}">Orders</a> --}}
 
