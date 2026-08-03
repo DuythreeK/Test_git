@@ -110,7 +110,7 @@
             @endforeach
 
         </table>
-        <form id="checkout-form"">
+        <form id="checkout-form">
             <button type="submit">
                 Check out
             </button>
@@ -140,12 +140,18 @@
         </a>
 
     @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Loaded");
+            checkAll = document.getElementById('check-all');
+            console.log(checkAll);
+            checkAll.addEventListener('change', function() {
+                console.log("Changed");
+                document.querySelectorAll('.item-checkbox').forEach(item => {
+                    item.checked = this.checked;
+                });
+            });
+        })
+    </script>
 
 @endsection
-<script>
-    document.getElementById('check-all').addEventListener('change', function() {
-        document.querySelectorAll('.item-checkbox').forEach(item => {
-            item.checked = this.checked;
-        });
-    });
-</script>
