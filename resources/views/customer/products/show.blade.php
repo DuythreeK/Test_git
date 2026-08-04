@@ -50,7 +50,7 @@
         @if ($product->image)
             <tr>
                 <th>Image</th>
-                <td><img src = "{{ asset($product->image) }}" width="200px"></td>
+                <td><img src = "{{ asset('storage/' . $product->image) }}" width="200px"></td>
             </tr>
         @endif
 

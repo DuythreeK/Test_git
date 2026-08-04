@@ -43,6 +43,10 @@ class ProductService
         $product = Product::create($product);
         return $product;
     }
+    public function destroy($id)
+    {
+        Product::destroy($id);
+    }
     public function update(array $data, Product $product)
     {
         $product->update($data);

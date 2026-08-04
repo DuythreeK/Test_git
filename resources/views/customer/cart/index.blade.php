@@ -5,12 +5,12 @@
 @section('content')
 
     <h2>My Cart</h2>
-
+    {{--
     @if (session('success'))
         <p style="color: green">
             {{ session('success') }}
         </p>
-    @endif
+    @endif --}}
     @if ($cartItems->count())
 
         <table border="1" cellpadding="10" cellspacing="0">
@@ -46,7 +46,7 @@
                     <td>
 
                         @if ($item->product->image)
-                            <img src="{{ asset($item->product->image) }}" width="80">
+                            <img src="{{ asset('storage/' . $item->product->image) }}" width="80">
                         @endif
 
                     </td>
@@ -110,7 +110,9 @@
             @endforeach
 
         </table>
-        <form id="checkout-form">
+        <br>
+        <form id="checkout-form" action="{{ route('customer.orders.checkout') }}" method="POST">
+            @csrf
             <button type="submit">
                 Check out
             </button>
@@ -142,11 +144,8 @@
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("Loaded");
             checkAll = document.getElementById('check-all');
-            console.log(checkAll);
             checkAll.addEventListener('change', function() {
-                console.log("Changed");
                 document.querySelectorAll('.item-checkbox').forEach(item => {
                     item.checked = this.checked;
                 });

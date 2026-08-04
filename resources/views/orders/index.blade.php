@@ -15,7 +15,7 @@
 
             <th>Status</th>
 
-            <th></th>
+            <th>Create at</th>
 
         </tr>
 
@@ -29,6 +29,8 @@
                 <td>{{ $order->total_price }}</td>
 
                 <td>{{ $order->status }}</td>
+
+                <td>{{ $order->created_at }}</td>
 
                 <td>
 

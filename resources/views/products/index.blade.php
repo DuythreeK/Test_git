@@ -18,16 +18,16 @@
             @endforeach
         </select>
 
-        <select name="stock">
+        {{-- <select name="stock">
             <option value="">-- Stock --</option>
             <option value="in_stock" {{ request('stock') == 'in_stock' ? 'selected' : '' }}>In stock</option>
-        </select>
+        </select> --}}
 
-        <select name="status">
+        {{-- <select name="status">
             <option value="">-- Status --</option>
             <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
             <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
-        </select>
+        </select> --}}
 
         <button type="submit">Filter</button>
         <a href="{{ route('products.index') }}">Reset</a>

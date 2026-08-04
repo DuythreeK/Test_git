@@ -7,11 +7,240 @@
 </head>
 
 <body>
-    <h1>HTML study</h1>
-    <div><img src="img_hello_world.jpg" alt="Hello World from Space" style="width:100%;max-width:960px"></div>
-    <p>This is the first file in my new Git Repo.</p>
-    <p>A new line in our file!</p>
-    <div><img src="img_hello_git.jpg" alt="Hello Git" style="width:100%;max-width:640px"></div>
+    <!-- Header -->
+    <header>
+        <h1>
+            Mobile Store
+        </h1>
+
+        <nav>
+            <a href="#home">Trang chủ</a>|
+            <a href="#products">Sản phẩm</a>|
+            <a href="#price">Bảng giá</a>|
+            <a href="#contact">Liên hệ</a>
+        </nav>
+        <hr>
+    </header>
+
+    <!-- Banner -->
+    <section id='home'>
+        <h2>Chào mừng đến với Mobile Store</h2>
+        <p>Chuyên cung cấp điện thoại chính hãng với giá tốt nhất</p>
+    </section>
+    <hr>
+    <!-- Danh sách sản phẩm -->
+    <section id="products">
+        <h2>Điện thoại nổi bật</h2>
+        <table border="1px" cellpadding="10" cellspacing="0">
+            <tr>
+                <td>
+                    <img src="pictures/phone.png" width="80px">
+                    <h3>
+                        Iphone 16 Pro
+                    </h3>
+                    <p>Chip A18 Pro</p>
+                    <p>256Gb</p>
+                    <p><b>32.990.000 VNĐ</b></p>
+                </td>
+                <td>
+                    <img src="pictures/phone.png" width="80px">
+                    <h3>
+                        Samsung S25 Ultra
+                    </h3>
+                    <p>Snapdragon 8 Elite</p>
+                    <p>512Gb</p>
+                    <p><b>29.990.000 VNĐ</b></p>
+                </td>
+                <td>
+                    <img src="pictures/phone.png" width="80px">
+                    <h3>
+                        Xiaomi 15
+                    </h3>
+                    <p>Snapdragon 8 Lite</p>
+                    <p>256Gb</p>
+                    <p><b>18.990.000 VNĐ</b></p>
+                </td>
+            </tr>
+
+        </table>
+    </section>
+    <hr>
+    <!-- Bảng giá-->
+    <section id='price'>
+        <h2>Bảng giá</h2>
+        <table border="1px" cellpadding="10" cellspacing="0">
+            <tr>
+                <th>Tên</th>
+                <th>RAM</th>
+                <th>Bộ nhớ</th>
+                <th>Giá</th>
+            </tr>
+            <tr>
+                <td>
+                    Iphone 16 Pro
+                </td>
+                <td>
+                    8Gb
+                </td>
+                <td>
+                    256Gb
+                </td>
+                <td>
+                    32.990.000
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Samsung S25 Ultra
+                </td>
+                <td>
+                    12Gb
+                </td>
+                <td>
+                    512Gb
+                </td>
+                <td>
+                    29.990.000
+                </td>
+            </tr>
+            <td>
+                Xiaomi 15
+            </td>
+            <td>
+                12Gb
+            </td>
+            <td>
+                256Gb
+            </td>
+            <td>
+                18.990.000
+            </td>
+            </tr>
+
+        </table>
+    </section>
+    <hr>
+
+    <!-- Danh mục sản phẩm -->
+    <section>
+        <h2>Danh mục sản phẩm</h2>
+        <ul>
+            <li>Apple</li>
+            <li>Samsung</li>
+            <li>Xiaomi</li>
+            <li>OPPO</li>
+            <li>Vivo</li>
+        </ul>
+    </section>
+    <hr>
+    <!-- Địa chỉ -->
+    <section>
+        <h2>Địa chỉ</h2>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.0910791020383!2d105.8460013!3d21.0290414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab96719d8a8d%3A0x6143636a1422c469!2zSMOgIE7hu5lpIFNvY2lhbCBDbHVi!5e0!3m2!1svi!2s!4v1785836910591!5m2!1svi!2s"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </section>
+
+    <!-- Form -->
+    <section id="contact">
+        <h2>Đặt hàng</h2>
+
+        <form>
+
+            <p>
+
+                Họ tên
+                <br>
+                <input type="text" placeholder="Nhập họ tên">
+
+            </p>
+
+            <p>
+
+                Email
+                <br>
+
+                <input type="email" placeholder="Nhập email">
+
+            </p>
+
+            <p>
+
+                Số điện thoại
+                <br>
+
+                <input type="tel">
+
+            </p>
+
+            <p>
+
+                Địa chỉ
+                <br>
+
+                <textarea rows="4" cols="40"></textarea>
+
+            </p>
+
+            <p>
+
+                Chọn điện thoại
+                <br>
+
+                <select>
+                    <option>iPhone 16 Pro</option>
+                    <option>Samsung S25 Ultra</option>
+                    <option>Xiaomi 15</option>
+                </select>
+
+            </p>
+
+            <p>
+
+                Màu sắc
+                <br>
+
+                <input type="radio" name="color" value="black"> Đen
+                <input type="radio" name="color" value="white"> Trắng
+                <input type="radio" name="color" value="blue"> Xanh
+
+            </p>
+
+            <p>
+
+                Phụ kiện
+                <br>
+                <input type="checkbox"> Tai nghe
+                <br>
+
+                <input type="checkbox"> Sạc nhanh
+                <br>
+
+                <input type="checkbox"> Ốp lưng
+            </p>
+
+            <p>
+                Upload CCCD
+                <br>
+                <input type="file">
+            </p>
+            <input type="submit" value="Đặt hàng">
+            <input type="reset" value="Làm lại">
+        </form>
+    </section>
+    <hr>
+
+    <!-- Footer -->
+
+    <footer>
+        <h3>Mobile Store</h3>
+        <p>Email: mobilestore@gmail.com</p>
+        <p>Hotline: 0123 456 789</p>
+        <p>Địa chỉ: Hà Nội</p>
+        <p>© 2026 Mobile Store</p>
+    </footer>
+
 </body>
 
 </html>
