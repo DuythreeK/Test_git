@@ -30,7 +30,7 @@ class ProductService
             $filters['sort'] ?? null,
             fn ($q, $sort) => $q->orderBy('price', $sort)
         );
-        return $products->paginate(10);
+        return $products->paginate(15);
 
     }
     public function getById($id)

@@ -205,6 +205,8 @@
                 <input type="radio" name="color" value="white"> Trắng
                 <input type="radio" name="color" value="blue"> Xanh
 
+
+
             </p>
 
             <p>
@@ -240,6 +242,21 @@
         <p>Địa chỉ: Hà Nội</p>
         <p>© 2026 Mobile Store</p>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const colors = document.querySelectorAll('input[name="color"]');
+            console.log(colors);
+            colors.forEach(
+                radio => {
+                    radio.addEventListener('change', function () {
+                        document.getElementById('contact').style.backgroundColor = this.value;
+                    });
+                }
+            );
+        })
+
+    </script>
+
 
 </body>
 

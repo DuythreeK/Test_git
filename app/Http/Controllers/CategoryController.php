@@ -109,11 +109,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
-        if (!$category->products()->exists()) {
-            $this->categoryService->destroy($category);
-            return redirect()->route('categories.index');
-        }
-        return redirect()->route('categories.index')->with('error', 'Category has products and cannot bo deleted');
+        // if (!$category->products()->exists()) {
+        $this->categoryService->destroy($category);
+        return redirect()->route('categories.index');
+        // }
+        // return redirect()->route('categories.index')->with('error', 'Category has products and cannot bo deleted');
 
     }
 }

@@ -27,8 +27,28 @@
                 <td>{{ $order->user->name }}</td>
 
                 <td>{{ $order->total_price }}</td>
+                <td>
+                    <form action="{{ route('orders.updateStatus', $order) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>
+                                pending
+                            </option>
+                            <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                processing
+                            </option>
+                            <option value="shipping" {{ $order->status == 'shipping' ? 'selected' : '' }}>
+                                shipping
+                            </option>
+                            <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>
+                                completed
+                            </option>
+                        </select>
+                    </form>
+                </td>
 
-                <td>{{ $order->status }}</td>
+                {{-- <td>{{ $order->status }}</td> --}}
 
                 <td>{{ $order->created_at }}</td>
 

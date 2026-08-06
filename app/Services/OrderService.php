@@ -65,4 +65,10 @@ class OrderService
             CartItem::destroy($validated['cart_items']);
         });
     }
+    public function updateStatus(Order $order, $status)
+    {
+        $order->update([
+            'status' => $status
+        ]);
+    }
 }
