@@ -3,9 +3,6 @@
 
 <head>
     <style>
-        p {
-            color: aqua;
-        }
     </style>
     <title>HTML study</title>
     <link rel="stylesheet" href="styles.css">
@@ -37,13 +34,13 @@
     <section id="products">
         <h2>Điện thoại nổi bật</h2>
         <table border="1px" cellpadding="10" cellspacing="0">
-            <tr>
-                <td>
+            <tr id="product-list">
+                <!-- <td>
                     <img src="pictures/phone.png" width="80px">
                     <h3>
                         Iphone 16 Pro
                     </h3>
-                    <p style="color: aqua;">Chip A18 Pro</p>
+                    <p>Chip A18 Pro</p>
                     <p>256Gb</p>
                     <p><b>32.990.000 VNĐ</b></p>
                 </td>
@@ -64,7 +61,7 @@
                     <p>Snapdragon 8 Lite</p>
                     <p>256Gb</p>
                     <p><b>18.990.000 VNĐ</b></p>
-                </td>
+                </td> -->
             </tr>
 
         </table>
@@ -235,7 +232,14 @@
             <input type="submit" value="Đặt hàng">
             <input type="reset" value="Làm lại">
         </form>
+
+
     </section>
+    <div class="container">
+        <div class="box">1</div>
+        <div class="box test">2</div>
+    </div>
+
     <hr>
 
     <!-- Footer -->
@@ -250,7 +254,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const colors = document.querySelectorAll('input[name="color"]');
-            console.log(colors);
             colors.forEach(
                 radio => {
                     radio.addEventListener('change', function () {
@@ -261,8 +264,7 @@
         })
 
     </script>
-
-
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
