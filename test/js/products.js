@@ -87,4 +87,6 @@ export const products = [
         stock: 4,
         image: "pictures/phone.png"
     }
-]
+];
+
+export const categories = ['Apple', 'Samsung', 'Xiaomi', 'OPPO', 'Vivo'];
