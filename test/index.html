@@ -34,6 +34,13 @@
     <section id="products">
         <h2>Điện thoại nổi bật</h2>
         <input id="search" type="text" placeholder="Tìm kiếm điện thoại">
+        <select name="sort-by" id="sort-by">
+            <option value="">Sort by</option>
+            <option value="name-inc">Tên tăng dần từ A -> Z</option>
+            <option value="name-des">Tên giảm dần từ Z -> A</option>
+            <option value="price-inc">Giá tăng dần</option>
+            <option value="price-des">Giá giảm dần</option>
+        </select>
         <table border="1px" cellpadding="10" cellspacing="0">
             <tbody id="product-list"></tbody>
         </table>
@@ -71,76 +78,54 @@
         <form>
 
             <p>
-
                 Họ tên
                 <br>
                 <input type="text" placeholder="Nhập họ tên">
-
             </p>
 
             <p>
-
                 Email
                 <br>
-
                 <input type="email" placeholder="Nhập email">
-
             </p>
 
             <p>
-
                 Số điện thoại
                 <br>
-
                 <input type="tel">
-
             </p>
 
             <p>
-
                 Địa chỉ
                 <br>
-
                 <textarea rows="4" cols="40"></textarea>
-
             </p>
 
             <p>
-
                 Chọn điện thoại
                 <br>
-
                 <select>
                     <option>iPhone 16 Pro</option>
                     <option>Samsung S25 Ultra</option>
                     <option>Xiaomi 15</option>
                 </select>
-
             </p>
 
             <p>
-
                 Màu sắc
                 <br>
-
                 <input type="radio" name="color" value="black"> Đen
                 <input type="radio" name="color" value="white"> Trắng
                 <input type="radio" name="color" value="blue"> Xanh
-
-
-
             </p>
 
             <p>
-
                 Phụ kiện
                 <br>
                 <input type="checkbox"> Tai nghe
                 <br>
-
                 <input type="checkbox"> Sạc nhanh
                 <br>
-
                 <input type="checkbox"> Ốp lưng
             </p>
 
