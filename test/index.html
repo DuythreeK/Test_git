@@ -16,10 +16,11 @@
         </h1>
 
         <nav>
-            <a href="#home">Trang chủ</a>|
+            <a href="index.html">Trang chủ</a>|
             <a href="#products">Sản phẩm</a>|
             <a href="#price">Bảng giá</a>|
-            <a href="#contact">Liên hệ</a>
+            <a href="#contact">Liên hệ</a>|
+            <a href="cart.html">Giỏ hàng</a>
         </nav>
         <hr>
     </header>
@@ -33,14 +34,16 @@
     <!-- Danh sách sản phẩm -->
     <section id="products">
         <h2>Điện thoại nổi bật</h2>
-        <input id="search" type="text" placeholder="Tìm kiếm điện thoại">
-        <select name="sort-by" id="sort-by">
-            <option value="">Sort by</option>
-            <option value="name-inc">Tên tăng dần từ A -> Z</option>
-            <option value="name-des">Tên giảm dần từ Z -> A</option>
-            <option value="price-inc">Giá tăng dần</option>
-            <option value="price-des">Giá giảm dần</option>
-        </select>
+        <div id="filter">
+            <input id="search" type="text" placeholder="Tìm kiếm điện thoại">
+            <select name="sort-by" id="sort-by">
+                <option value="">Sort by</option>
+                <option value="name-inc">Tên A -> Z</option>
+                <option value="name-des">Tên Z -> A</option>
+                <option value="price-inc">Giá thấp -> cao</option>
+                <option value="price-des">Giá cao -> thấp</option>
+            </select>
+        </div>
         <table border="1px" cellpadding="10" cellspacing="0">
             <tbody id="product-list"></tbody>
         </table>
@@ -75,30 +78,34 @@
     <section id="contact">
         <h2>Đặt hàng</h2>
 
-        <form>
+        <form id="check-out">
 
             <p>
                 Họ tên
                 <br>
-                <input type="text" placeholder="Nhập họ tên">
+                <input id="name" type="text" placeholder="Nhập họ tên">
+                <small class="error" id="name-error"></small>
             </p>
 
             <p>
                 Email
                 <br>
-                <input type="email" placeholder="Nhập email">
+                <input id="email" type="email" placeholder="Nhập email">
+                <small class="error" id="email-error"></small>
             </p>
 
             <p>
                 Số điện thoại
                 <br>
-                <input type="tel">
+                <input id="phone" type="tel">
+                <small class="error" id="phone-error"></small>
             </p>
 
             <p>
                 Địa chỉ
                 <br>
-                <textarea rows="4" cols="40"></textarea>
+                <textarea id="address" rows="4" cols="40"></textarea>
+                <small class="error" id="address-error"></small>
             </p>
 
             <p>

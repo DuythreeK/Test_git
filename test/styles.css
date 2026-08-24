@@ -65,6 +65,21 @@ section h2 {
     font-size: 30px;
 }
 
+/* Input tim kiem, sortBy */
+#filter {
+    display: flex;
+}
+
+#search {
+    margin: 5px;
+    width: 40%;
+}
+
+#sort-by {
+    margin: 5px;
+    width: 20%;
+}
+
 /* Danh sach san pham */
 
 #products table {
@@ -74,6 +89,7 @@ section h2 {
 
 #products td {
     text-align: center;
+    width: 100px;
 }
 
 #products img {
@@ -94,6 +110,18 @@ section h2 {
 #products b {
     color: #e53935;
     font-size: 18px;
+}
+
+.add-to-cart {
+    height: 50px;
+    width: 80px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background-color: #333;
+    color: #e3f2fd;
 }
 
 /*Bang gia*/
@@ -208,4 +236,19 @@ footer {
     width: 50px;
     height: 50px;
 
+}
+
+/* Gio hang */
+#cart-item img {
+    width: 100px;
+}
+
+#cart-total {
+    color: rgb(168, 168, 3);
+}
+
+/* Validate Contact Form */
+
+.error {
+    color: #e53935;
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>HTML study</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>
+            Mobile Store
+        </h1>
+
+        <nav>
+            <a href="index.html">Trang chủ</a>|
+            <a href="#products">Sản phẩm</a>|
+            <a href="#price">Bảng giá</a>|
+            <a href="#contact">Liên hệ</a>|
+            <a href="cart.html">Giỏ hàng</a>
+        </nav>
+        <hr>
+    </header>
+    <section id="cart">
+        <h2>Giỏ hàng</h2>
+        <div id="cart-list"></div>
+        <h3>Tạm tính: <span id="cart-total">0 VNĐ</span></h3>
+
+        <h2>Đặt hàng</h2>
+
+        <form id="check-out">
+
+            <p>
+                Họ tên
+                <br>
+                <input id="name" type="text" placeholder="Nhập họ tên">
+                <small class="error" id="name-error"></small>
+            </p>
+
+            <p>
+                Email
+                <br>
+                <input id="email" type="email" placeholder="Nhập email">
+                <small class="error" id="email-error"></small>
+            </p>
+
+            <p>
+                Số điện thoại
+                <br>
+                <input id="phone" type="tel">
+                <small class="error" id="phone-error"></small>
+            </p>
+
+            <p>
+                Địa chỉ
+                <br>
+                <textarea id="address" rows="4" cols="40"></textarea>
+                <small class="error" id="address-error"></small>
+            </p>
+            <input type="submit" value="Đặt hàng">
+            <input type="reset" value="Làm lại">
+        </form>
+
+    </section>
+    <!-- Footer -->
+    <footer>
+        <h3>Mobile Store</h3>
+        <p>Email: mobilestore@gmail.com</p>
+        <p>Hotline: 0123 456 789</p>
+        <p>Địa chỉ: Hà Nội</p>
+        <p>© 2026 Mobile Store</p>
+    </footer>
+
+    <script type="module" src="js/cart.js"></script>
+</body>
+
+</html>
