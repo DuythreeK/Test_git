@@ -10,7 +10,7 @@ function saveCart() {
 }
 
 //THEM VAO GIO HANG
-export function addToCart(productId) {
+export function addToCart(productId, quantity) {
     const product = products.find((item) => {
         return item.id === productId;
     })
@@ -19,12 +19,12 @@ export function addToCart(productId) {
     })
 
     if (cartItem) {
-        cartItem.quantity++;
+        cartItem.quantity += quantity;
     }
     else {
         cart.push({
             product: product,
-            quantity: 1
+            quantity: quantity
         });
     }
     saveCart();
