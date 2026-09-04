@@ -7,11 +7,11 @@
 
         {{-- <h2>My Cart</h2> --}}
         {{--
-    @if (session('success'))
+        @if (session('success'))
         <p style="color: green">
             {{ session('success') }}
         </p>
-    @endif --}}
+        @endif --}}
         @if ($cartItems->count())
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -26,7 +26,7 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>
-                                        <input type="checkbox" id="check-all">
+                                        <input type="checkbox" id="check-all" class="form-check-input">
                                     </th>
                                     <th>Image</th>
                                     <th>Product</th>
@@ -50,14 +50,14 @@
                                     <tr>
                                         <td>
                                             <input type="checkbox" name="cart_items[]" value="{{ $item->id }}"
-                                                class="item-checkbox" form="checkout-form">
+                                                class="item-checkbox form-check-input" form="checkout-form">
                                         </td>
 
                                         <td>
 
                                             @if ($item->product->image)
-                                                <img src="{{ asset('storage/' . $item->product->image) }}"
-                                                    class="img-thumnail" width="80">
+                                                <img src="{{ asset('storage/' . $item->product->image) }}" class="img-thumnail"
+                                                    width="80">
                                             @endif
 
                                         </td>
@@ -84,8 +84,8 @@
                                                 @csrf
                                                 @method('PUT')
 
-                                                <input type="number" name="quantity" value="{{ $item->quantity }}"
-                                                    min="1" max="{{ $item->product->stock }}">
+                                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
+                                                    max="{{ $item->product->stock }}">
 
                                                 <button type="submit" class="btn btn-sm btn-outline-primary">
                                                     Update
@@ -170,9 +170,9 @@
         @endif
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             checkAll = document.getElementById('check-all');
-            checkAll.addEventListener('change', function() {
+            checkAll.addEventListener('change', function () {
                 document.querySelectorAll('.item-checkbox').forEach(item => {
                     item.checked = this.checked;
                 });

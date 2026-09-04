@@ -1,62 +1,181 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Create Product</h2>
-    @if (session('success'))
-        <p style="color: green">{{ session('success') }}</p>
-    @endif
 
-    @if (session('error'))
-        <p style="color: red"> {{ session('error') }}</p>
-    @endif
+<div class="container mt-4">
 
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+    <div class="card shadow-sm">
 
-        @csrf
+        <div class="card-header">
+            <h2 class="mb-0">Create Product</h2>
+        </div>
 
-        <p>
+        <div class="card-body">
 
-            Name
+            {{-- Success message --}}
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-            <input type="text" name="name" value="{{ old('name') }}">
+            {{-- Error message --}}
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-        </p>
+            {{-- Validation errors --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <p>
+            <form
+                action="{{ route('products.store') }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
 
-            Category
-            <select name="category_id">
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">
+                @csrf
 
-                        {{ $category->name }}
+                <div class="row g-3">
 
-                    </option>
-                @endforeach
-            </select>
-        </p>
+                    {{-- Name --}}
+                    <div class="col-md-6">
+                        <label for="name" class="form-label fw-bold">
+                            Name
+                        </label>
 
-        <p>
-            Price
-            <input type="number" step="any" name="price">
-        </p>
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            class="form-control"
+                            value="{{ old('name') }}"
+                            placeholder="Enter product name"
+                        >
+                    </div>
 
-        <p>
-            Stock
-            <input type="number" name="stock">
-        </p>
+                    {{-- Category --}}
+                    <div class="col-md-6">
+                        <label for="category_id" class="form-label fw-bold">
+                            Category
+                        </label>
 
-        <p>
-            Description
-            <textarea name="description"></textarea>
-        </p>
+                        <select
+                            name="category_id"
+                            id="category_id"
+                            class="form-select"
+                        >
+                            <option value="">-- Select Category --</option>
 
-        <p>
-            Image
-            <input type="file" name="image">
-        </p>
+                            @foreach ($categories as $category)
+                                <option
+                                    value="{{ $category->id }}"
+                                    {{ old('category_id') == $category->id ? 'selected' : '' }}
+                                >
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <button>Create</button>
+                    {{-- Price --}}
+                    <div class="col-md-6">
+                        <label for="price" class="form-label fw-bold">
+                            Price
+                        </label>
 
-    </form>
+                        <input
+                            type="number"
+                            step="any"
+                            name="price"
+                            id="price"
+                            class="form-control"
+                            value="{{ old('price') }}"
+                            placeholder="Enter price"
+                        >
+                    </div>
+
+                    {{-- Stock --}}
+                    <div class="col-md-6">
+                        <label for="stock" class="form-label fw-bold">
+                            Stock
+                        </label>
+
+                        <input
+                            type="number"
+                            name="stock"
+                            id="stock"
+                            class="form-control"
+                            value="{{ old('stock') }}"
+                            placeholder="Enter stock"
+                        >
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="col-12">
+                        <label for="description" class="form-label fw-bold">
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            id="description"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Enter product description"
+                        >{{ old('description') }}</textarea>
+                    </div>
+
+                    {{-- Image --}}
+                    <div class="col-12">
+                        <label for="image" class="form-label fw-bold">
+                            Image
+                        </label>
+
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            class="form-control"
+                        >
+                    </div>
+
+                </div>
+
+                {{-- Buttons --}}
+                <div class="mt-4 d-flex gap-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Create
+                    </button>
+
+                    <a
+                        href="{{ route('products.index') }}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

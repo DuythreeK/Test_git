@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tự tạo Toast Notification từ đầu</title>
+
+    <style>
+        /* 1. CONTAINER CHỨA TOAST Ở GÓC TRÊN BÊN PHẢI */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+            width: 100%;
+            pointer-events: none;
+            /* Tránh cản trở click bên dưới khi không có toast */
+        }
+
+        /* 2. CHUNG CHO CÁC THẺ TOAST */
+        .toast {
+            pointer-events: auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: #1e293b;
+            color: #fff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, sans-serif;
+            animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Animation trượt vào và trượt ra */
+        @keyframes slideIn {
+            from {
+                transform: translateX(110%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 3. ĐỊNH DẠNG MÀU SẮC CHO TỪNG LOẠI TOAST */
+        .toast-success {
+            border-left: 4px solid #10b981;
+        }
+
+        .toast-success .toast-icon {
+            color: #10b981;
+        }
+
+        .toast-error {
+            border-left: 4px solid #f43f5e;
+        }
+
+        .toast-error .toast-icon {
+            color: #f43f5e;
+        }
+
+        .toast-warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .toast-warning .toast-icon {
+            color: #f59e0b;
+        }
+
+        .toast-info {
+            border-left: 4px solid #06b6d4;
+        }
+
+        .toast-info .toast-icon {
+            color: #06b6d4;
+        }
+
+        /* Nội dung Toast */
+        .toast-body {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        /* Nút Đóng X */
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .toast-close:hover {
+            color: #fff;
+        }
+
+        /* Thanh Progress Bar thời gian */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.4);
+            animation: progress linear forwards;
+        }
+
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+    </style>
+</head>
+
+<body style="font-family: sans-serif; padding: 40px; background: #0f172a; color: #fff;">
+
+    <h2>Thử nghiệm Toast Notification từ đầu</h2>
+    <p>Nhấp vào các nút bên dưới để phát thông báo ở góc trên bên phải:</p>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button onclick="toast.success('Thành công!', 'Dữ liệu đã được cập nhật thành công.')"
+            style="background: #10b981; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer;">Success</button>
+        <button onclick="toast.error('Có lỗi xảy ra!', 'Không thể kết nối với máy chủ.')"
+            style="background: #f43f5e; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer;">Error</button>
+        <button onclick="toast.warning('Cảnh báo!', 'Dung lượng bộ nhớ sắp vượt giới hạn.')"
+            style="background: #f59e0b; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer;">Warning</button>
+        <button onclick="toast.info('Thông tin', 'Bạn có một tin nhắn mới từ hệ thống.')"
+            style="background: #06b6d4; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer;">Info</button>
+    </div>
+
+    <!-- CONTAINER CHỨA CÁC THÔNG BÁO -->
+    <div id="toast-container"></div>
+
+    <script>
+        class ToastNotification {
+            constructor() {
+                this.container = document.getElementById('toast-container');
+            }
+
+            show({ type = 'info', title = '', message = '', duration = 4000 }) {
+                // Icon SVG theo từng loại
+                const icons = {
+                    success: '✓',
+                    error: '✕',
+                    warning: '⚠',
+                    info: 'ℹ'
+                };
+
+                // 1. Tạo element cho Toast
+                const toastEl = document.createElement('div');
+                toastEl.className = `toast toast-${type}`;
+
+                toastEl.innerHTML = `
+          <div class="toast-icon">${icons[type] || 'ℹ'}</div>
+          <div class="toast-body">
+            ${title ? `<div class="toast-title">${title}</div>` : ''}
+            <div class="toast-message">${message}</div>
+          </div>
+          <button class="toast-close">&times;</button>
+          <div class="toast-progress" style="animation-duration: ${duration}ms;"></div>
+        `;
+
+                // 2. Thêm vào container
+                this.container.appendChild(toastEl);
+
+                // 3. Xử lý đóng toast
+                const removeToast = () => {
+                    if (toastEl.classList.contains('hide')) return;
+                    toastEl.classList.add('hide');
+                    toastEl.addEventListener('animationend', () => {
+                        toastEl.remove();
+                    });
+                };
+
+                // Nút X click
+                toastEl.querySelector('.toast-close').addEventListener('click', removeToast);
+
+                // Tự động ẩn sau khoảng thời gian `duration`
+                const autoCloseTimer = setTimeout(removeToast, duration);
+
+                // Tạm dừng khi di chuột vào Toast
+                toastEl.addEventListener('mouseenter', () => {
+                    clearTimeout(autoCloseTimer);
+                    const progress = toastEl.querySelector('.toast-progress');
+                    if (progress) progress.style.animationPlayState = 'paused';
+                });
+
+                // Tiếp tục tắt khi di chuột ra ngoài
+                toastEl.addEventListener('mouseleave', () => {
+                    removeToast();
+                });
+            }
+
+            // Các hàm viết tắt tiện lợi
+            success(title, message, duration) { this.show({ type: 'success', title, message, duration }); }
+            error(title, message, duration) { this.show({ type: 'error', title, message, duration }); }
+            warning(title, message, duration) { this.show({ type: 'warning', title, message, duration }); }
+            info(title, message, duration) { this.show({ type: 'info', title, message, duration }); }
+        }
+
+        // Khởi tạo đối tượng toàn cục
+        const toast = new ToastNotification();
+    </script>
+</body>
+
+</html>

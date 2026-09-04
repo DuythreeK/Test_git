@@ -1,43 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Order #{{ $order->id }}</h2>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Order #{{ $order->id }}</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-title">
 
-    <p>
+                    <strong>Customer :</strong>
 
-        Customer :
+                    {{ $order->user->name }}
 
-        {{ $order->user->name }}
+                </p>
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
 
-    </p>
+                            <th>Product</th>
+
+                            <th>Price</th>
+
+                            <th>Qty</th>
+
+                            <th>Subtotal</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($order->orderItems as $item)
+                            <tr>
+
+                                <td>{{ $item->product->name }}</td>
+
+                                <td>{{ $item->price }}</td>
+
+                                <td>{{ $item->quantity }}</td>
+
+                                <td>{{ $item->subtotal }}</td>
+
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <table border="1">
 
-        <tr>
 
-            <th>Product</th>
 
-            <th>Price</th>
 
-            <th>Qty</th>
-
-            <th>Subtotal</th>
-
-        </tr>
-
-        @foreach ($order->orderItems as $item)
-            <tr>
-
-                <td>{{ $item->product->name }}</td>
-
-                <td>{{ $item->price }}</td>
-
-                <td>{{ $item->quantity }}</td>
-
-                <td>{{ $item->subtotal }}</td>
-
-            </tr>
-        @endforeach
 
     </table>
 @endsection

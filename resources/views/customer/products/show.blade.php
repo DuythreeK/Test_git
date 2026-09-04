@@ -4,7 +4,8 @@
 @section('style')
     <style>
         #tbl tr th {
-            background-color: #4188f3;
+            background-color: black;
+            color: white;
         }
     </style>
 @endsection
@@ -60,14 +61,14 @@
                     @if ($product->image)
                         <tr>
                             <th>Image</th>
-                            <td><img src = "{{ asset('storage/' . $product->image) }}" class="img-fuild w-50"></td>
+                            <td><img src="{{ asset('storage/' . $product->image) }}" class="img-fuild w-50"></td>
                         </tr>
                     @endif
 
                 </table>
                 <br><br>
                 @if ($product->stock > 0)
-                    <form action="{{ route('customer.cart.store') }}" method = 'POST'>
+                    <form action="{{ route('customer.cart.store') }}" method='POST'>
                         @csrf
                         <div class="d-flex mb-3 align-content-center">
                             <input type="hidden" name="product_id" value="{{ $product->id }}">

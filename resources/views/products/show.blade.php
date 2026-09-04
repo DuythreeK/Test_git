@@ -1,45 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>{{ $product->name }}</h2>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
 
-    <p>
+                <h2>{{ $product->name }}</h2>
 
-        Category :
+                <p>
+                    <strong>Category :</strong>
+                    {{ $product->category->name }}
+                </p>
 
-        {{ $product->category->name }}
+                <p>
+                    <strong>Price :</strong>
 
-    </p>
+                    {{ $product->price }}
+                </p>
 
-    <p>
+                <p>
+                    <strong>Stock</strong> :
+                    {{ $product->stock }}
 
-        Price :
+                </p>
 
-        {{ $product->price }}
+                <p>
+                    <strong>Description:</strong>
+                </p>
 
-    </p>
+                <p>
+                    {{ $product->description }}
+                </p>
 
-    <p>
+                @if ($product->image)
+                    <img src="{{ asset('storage/' . $product->image) }}" width="200px">
+                @endif
+            </div>
+        </div>
+    </div>
 
-        Stock :
-
-        {{ $product->stock }}
-
-    </p>
-
-    <p>
-
-        Description
-
-    </p>
-
-    <p>
-
-        {{ $product->description }}
-
-    </p>
-
-    @if ($product->image)
-        <img src="{{ asset('storage/' . $product->image) }}" width="200px">
-    @endif
 @endsection

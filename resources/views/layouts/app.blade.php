@@ -3,32 +3,39 @@
 
 <head>
     <title>Mini Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex min-vh-100">
+    <div class="d-flex bg-dark text-white p-3 flex-column" style="min-height: 100vh; width: 200px">
+        <h4>Mini Shop Management</h4>
+        <hr>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link text-white">Home</a>
+            </li>
+            <li class="nav-item"><a href="{{ route('dashboard.index') }}" class="nav-link text-white">Dashboard</a>
+            </li>
+            <li class="nav-item"><a href="{{ route('products.index') }}" class="nav-link text-white">Products</a>
+            </li>
+            <li class="nav-item"><a href="{{ route('categories.index') }}" class="nav-link text-white">Categories</a>
+            </li>
+            <li class="nav-item"><a href="{{ route('orders.index') }}" class="nav-link text-white">Orders</a></li>
+        </ul>
+        <div class="mt-auto">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button class="btn btn-secondary" type="submit">
+                    Log out
+                </button>
 
-    <h1>Mini Shop Management</h1>
+            </form>
+        </div>
 
-    <hr>
-
-    <a href="{{ route('home') }}">Home</a> |
-    <a href="{{ route('dashboard.index') }}">Dashboard</a> |
-    <a href="{{ route('products.index') }}">Products</a> |
-    <a href="{{ route('categories.index') }}">Categories</a> |
-    <a href="{{ route('orders.index') }}">Orders</a>
-
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">
-            Log out
-        </button>
-
-    </form>
-    <hr>
-
-
-    @yield('content')
-
+    </div>
+    <div class="flex-grow-1 p-4">
+        @yield('content')
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -1,25 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Create Category</h2>
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h2>Create Category</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
 
-    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-        @csrf
+                    <div class="mb-2">
 
-        <p>
+                        <label for="name" class="form-label">Name</label>
 
-            Name
+                        <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
 
-            <input type="text" name="name" value="{{ old('name') }}">
+                    </div>
 
-        </p>
+                    <div class="mb-2">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" name="description" id="description"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Create</button>
 
-        <p>
-            Description
-            <textarea name="description"></textarea>
-        </p>
-        <button>Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    </form>
+
+
 @endsection
