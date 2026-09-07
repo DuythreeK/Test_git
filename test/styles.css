@@ -309,6 +309,10 @@ footer {
     transition: background-color 0.2s;
 }
 
+
+
+
+
 #close-modal:hover {
     background-color: rgb(250, 92, 92);
     color: #e3f2fd;
