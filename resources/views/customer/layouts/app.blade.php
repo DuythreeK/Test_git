@@ -7,7 +7,7 @@
 
 <body>
 
-    <h1>Simple Shoppppppppp</h1>
+    <h1>Simple</h1>
 
 
 
