@@ -30,6 +30,7 @@
                                     </th>
                                     <th>Image</th>
                                     <th>Product</th>
+                                    <th>Size</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Subtotal</th>
@@ -43,7 +44,7 @@
 
                                 @foreach ($cartItems as $item)
                                     @php
-                                        $subtotal = $item->product->price * $item->quantity;
+                                        $subtotal = $item->variant->product->price * $item->quantity;
                                         $total += $subtotal;
                                     @endphp
 
@@ -55,24 +56,28 @@
 
                                         <td>
 
-                                            @if ($item->product->image)
-                                                <img src="{{ asset('storage/' . $item->product->image) }}" class="img-thumnail"
-                                                    width="80">
+                                            @if ($item->variant->product->image)
+                                                <img src="{{ asset('storage/' . $item->variant->product->image) }}"
+                                                    class="img-thumnail" width="80">
                                             @endif
 
                                         </td>
 
                                         <td>
 
-                                            <a href="{{ route('customer.products.show', $item->product) }}">
-                                                {{ $item->product->name }}
+                                            <a href="{{ route('customer.products.show', $item->variant->product) }}">
+                                                {{ $item->variant->product->name }}
                                             </a>
 
                                         </td>
 
                                         <td>
+                                            Size {{ $item->variant->size->name }}
+                                        </td>
 
-                                            {{ number_format($item->product->price) }}
+                                        <td>
+
+                                            {{ number_format($item->variant->product->price) }}
 
                                         </td>
 
@@ -84,8 +89,8 @@
                                                 @csrf
                                                 @method('PUT')
 
-                                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
-                                                    max="{{ $item->product->stock }}">
+                                                <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                                    min="1" max="{{ $item->variant->stock }}">
 
                                                 <button type="submit" class="btn btn-sm btn-outline-primary">
                                                     Update
@@ -170,9 +175,9 @@
         @endif
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             checkAll = document.getElementById('check-all');
-            checkAll.addEventListener('change', function () {
+            checkAll.addEventListener('change', function() {
                 document.querySelectorAll('.item-checkbox').forEach(item => {
                     item.checked = this.checked;
                 });

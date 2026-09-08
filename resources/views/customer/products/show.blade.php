@@ -45,14 +45,6 @@
 
                     <tr>
 
-                        <th>Stock</th>
-
-                        <td>{{ $product->stock }}</td>
-
-                    </tr>
-
-                    <tr>
-
                         <th>Description</th>
 
                         <td>{{ $product->description }}</td>
@@ -66,15 +58,35 @@
                     @endif
 
                 </table>
-                <br><br>
-                @if ($product->stock > 0)
+                <br>
+                @if ($product->variants->count() > 0)
                     <form action="{{ route('customer.cart.store') }}" method='POST'>
                         @csrf
+                        {{-- Size --}}
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <strong>Size</strong>
+                            </label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                @foreach ($product->variants as $variant)
+                                    <input type="radio" class="btn-check" name="product_variant_id"
+                                        id="size-{{ $variant->id }}" value="{{ $variant->id }}"
+                                        {{ $variant->stock <= 0 ? 'disabled' : '' }} autocomplete="off">
+                                    <label class="btn btn-outline-primary size-option" for="size-{{ $variant->id }}">
+                                        Size {{ $variant->size->name }}
+                                        @if ($variant->stock <= 0)
+                                            <small class="d-block"> Out of stock </small>
+                                        @else
+                                            <small class="d-block"> Stock: {{ $variant->stock }} </small>
+                                        @endif
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="d-flex mb-3 align-content-center">
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <label class="me-3">Quantity</label>
                             <input class="form-control" type="number" name="quantity" value="1" min="1"
-                                max="{{ $product->stock }}" style="width: 100px">
+                                style="width: 100px">
                         </div>
                         <button type="submit" class="btn btn-outline-success">
                             Add to Cart

@@ -9,6 +9,7 @@ class ProductService
     public function getAll(array $filters = [])
     {
         $products = Product::query()
+        ->with(['category', 'variants'])
         ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', (int) $status))
         ->when(
             $filters['search'] ?? null,
@@ -35,7 +36,7 @@ class ProductService
     }
     public function getById($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['category', 'variants'])->findOrFail($id);
         return $product;
     }
     public function store(array $product)

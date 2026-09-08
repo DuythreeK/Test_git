@@ -22,6 +22,9 @@
                                     Product
                                 </th>
                                 <th>
+                                    Size
+                                </th>
+                                <th>
                                     Price
                                 </th>
                                 <th>
@@ -30,7 +33,7 @@
                                 <th>
                                     Subtotal
                                 </th>
-                            <tr></tr>
+                            </tr>
                         </thead>
 
                         @php
@@ -39,20 +42,23 @@
 
                         @foreach ($cartItems as $item)
                             @php
-                                $subtotal = $item->product->price * $item->quantity;
+                                $subtotal = $item->variant->product->price * $item->quantity;
                                 $total += $subtotal;
                             @endphp
                             <tr>
                                 <td>
-                                    @if ($item->product->image)
-                                        <img src="{{ asset('storage/' . $item->product->image) }}" width="80">
+                                    @if ($item->variant->product->image)
+                                        <img src="{{ asset('storage/' . $item->variant->product->image) }}" width="80">
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $item->product->name }}
+                                    {{ $item->variant->product->name }}
                                 </td>
                                 <td>
-                                    {{ number_format($item->product->price) }}
+                                    Size {{ $item->variant->size->name }}
+                                </td>
+                                <td>
+                                    {{ number_format($item->variant->product->price) }}
                                 </td>
                                 <td>
                                     {{ $item->quantity }}
@@ -64,7 +70,7 @@
                             <input type="hidden" name="cart_items[]" value="{{ $item->id }}">
                         @endforeach
                     </table>
-                    <h5>Total: {{ number_format($total) }}</h3>
+                    <h5>Total: {{ number_format($total) }}</h5>
             </div>
         </div>
         <div class="card">

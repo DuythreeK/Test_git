@@ -33,9 +33,9 @@
                         @foreach ($order->orderItems as $item)
                             <tr>
 
-                                <td>{{ $item->product->name }}</td>
+                                <td>{{ $item->variant->product->name }}</td>
 
-                                <td>{{ $item->price }}</td>
+                                <td>{{ $item->variant->product->price }}</td>
 
                                 <td>{{ $item->quantity }}</td>
 

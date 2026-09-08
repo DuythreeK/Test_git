@@ -11,7 +11,7 @@ class CartService
 {
     public function getByUserId($userId)
     {
-        $cart = Cart::with('cartItems.product')->where('user_id', $userId)->first();
+        $cart = Cart::with(['cartItems.variant.product', 'cartItems.variant.size'])->where('user_id', $userId)->first();
         return $cart;
     }
     public function store($validated): void
@@ -19,14 +19,14 @@ class CartService
         $cart = Cart::firstOrCreate([
         'user_id' => auth()->user()->id,
         ]);
-        $cartItem = CartItem::where('product_id', $validated['product_id'])
+        $cartItem = CartItem::where('product_variant_id', $validated['product_variant_id'])
         ->where('cart_id', $cart->id)->first();
         if ($cartItem) {
             $cartItem->increment('quantity', $validated['quantity']);
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
-                'product_id' => $validated['product_id'],
+                'product_variant_id' => $validated['product_variant_id'],
                 'quantity' => $validated['quantity'],
             ]);
         }
@@ -38,7 +38,7 @@ class CartService
             'quantity' => $validated['quantity'],
         ]);
     }
-    public function detroyItem($id)
+    public function destroyItem($id)
     {
         $result = CartItem::destroy($id);
         return $result;

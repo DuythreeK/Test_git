@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\OrderItem;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductVariant;
 
 class OrderItemFactory extends Factory
 {
@@ -17,12 +18,13 @@ class OrderItemFactory extends Factory
     protected $model = OrderItem::class;
     public function definition()
     {
-        $price = $this->faker->numberBetween(100000, 5000000);
+        $variant = ProductVariant::inRandomOrder()->first();
+        $price = $variant->product->price;
         $quantity = $this->faker->numberBetween(1, 5);
         return [
             //
-            'order_id' => Order::factory(),
-            'product_id' => Product::factory(),
+            'order_id' => Order::inRandomOrder()->first()->id,
+            'product_variant_id' => $variant->id,
             'price' => $price,
             'quantity' => $quantity,
             'subtotal' => $price * $quantity,

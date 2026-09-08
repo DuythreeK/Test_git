@@ -48,7 +48,7 @@ class CartController extends Controller
     {
         //
         $validated = $request->validate([
-            'product_id' => 'required',
+            'product_variant_id' => 'required',
             'quantity' => 'required|integer|min:1',
         ]);
         $this->cartService->store($validated);
@@ -105,7 +105,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
-        $this->cartService->detroyItem($id);
+        $this->cartService->destroyItem($id);
         return redirect()->route('customer.cart.index');
     }
 }
