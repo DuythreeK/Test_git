@@ -60,6 +60,8 @@
             @endforeach
         </table>
 
+
+
         <hr>
         <h3>Total: {{ number_format($total) }}</h3>
         <h3>Shipping Information</h3>

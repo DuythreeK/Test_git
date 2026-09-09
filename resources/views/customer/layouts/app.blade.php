@@ -7,7 +7,9 @@
 
 <body>
 
-    <h1>Simple Shop</h1>
+    <h1>Simple</h1>
+
+
 
     <hr>
 
