@@ -13,12 +13,12 @@ class OrderService
 {
     public function getAll()
     {
-        $orders = Order::paginate(10);
+        $orders = Order::with('user')->paginate(10);
         return $orders;
     }
     public function getById($id)
     {
-        $order = Order::with(['user', 'orderItems'])->findOrFail($id);
+        $order = Order::with(['user', 'orderItems.variant.product', 'orderItems.variant.size'])->findOrFail($id);
         return $order;
     }
     public function getByCustomer()
@@ -29,10 +29,10 @@ class OrderService
     public function getCheckoutItems(array $cartItemIds)
     {
         $cartItems = CartItem::with('variant.product', 'variant.size')
-        ->whereIn('id', $cartItemIds)
-        ->whereHas('cart', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
+            ->whereIn('id', $cartItemIds)
+            ->whereHas('cart', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })->get();
         return $cartItems;
     }
     public function storeOrder($validated)
@@ -51,8 +51,9 @@ class OrderService
                 'status' => 'pending',
                 'shipping_address' => $validated['shipping_address'],
                 'note' => $validated['note'],
+                'receiver_name' => $validated['receiver_name'],
+                'phone' => $validated['phone'],
             ]);
-
 
             foreach ($cartItems as $item) {
                 OrderItem::create([

@@ -9,10 +9,13 @@
             <div class="card-body">
                 <p class="card-title">
 
-                    <strong>Customer :</strong>
-
-                    {{ $order->user->name }}
-
+                    <strong>Customer :</strong> {{ $order->user->name }}
+                </p>
+                <p class="card-title">
+                    <strong> Receiver name :</strong> {{ $order->receiver_name ?? '' }}
+                </p>
+                <p class="card-title">
+                    <strong> Phone :</strong> {{ $order->phone ?? '' }}
                 </p>
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
@@ -21,6 +24,8 @@
                             <th>Product</th>
 
                             <th>Price</th>
+
+                            <th>Size</th>
 
                             <th>Qty</th>
 
@@ -35,7 +40,9 @@
 
                                 <td>{{ $item->variant->product->name }}</td>
 
-                                <td>{{ $item->variant->product->price }}</td>
+                                <td>{{ $item->price }}</td>
+
+                                <td>{{ $item->variant->size->name ?? 'N/A' }}</td>
 
                                 <td>{{ $item->quantity }}</td>
 
@@ -47,16 +54,6 @@
                 </table>
             </div>
         </div>
+        <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary mt-2">Back</a>
     </div>
-
-
-
-
-    <table border="1">
-
-
-
-
-
-    </table>
 @endsection

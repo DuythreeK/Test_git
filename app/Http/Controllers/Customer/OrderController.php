@@ -33,17 +33,18 @@ class OrderController extends Controller
 
         try {
             $validated = $request->validate([
-            'cart_items' => 'required',
-            'cart_items.*' => 'exists:cart_items,id',
-            'phone' => 'required|string|max:20',
-            'shipping_address' => 'required|string',
-            'note' => 'nullable|string',
+                'cart_items' => 'required',
+                'cart_items.*' => 'exists:cart_items,id',
+                'phone' => 'required|string|max:20',
+                'shipping_address' => 'required|string',
+                'note' => 'nullable|string',
+                'receiver_name' => 'required|string|max:255',
+                'phone' => 'required|string|max:20',
 
-        ]);
+            ]);
             $this->orderService->storeOrder($validated);
             return redirect()->route('customer.cart.index')->with('success', 'Order  successfully');
         } catch (Exception $e) {
-            dd($e->getMessage());
             return redirect()->route('customer.cart.index')->withInput()->with('error', 'Order failed');
         }
 

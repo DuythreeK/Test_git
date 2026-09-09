@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="text-center">
             <h2>Category</h2>
         </div>
@@ -69,5 +69,4 @@
             {{ $categories->links() }}
         </div>
     </div>
-
 @endsection

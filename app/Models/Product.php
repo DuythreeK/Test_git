@@ -41,8 +41,14 @@ class Product extends Model
             'id'
         );
     }
-    public function cartItems()
+    public function cartItems(): HasManyThrough
     {
-        return $this->hasMany(CartItem::class);
+        return $this->hasManyThrough(
+            CartItem::class,
+            ProductVariant::class,
+            'product_id',
+            'product_variant_id'
+        );
     }
+
 }

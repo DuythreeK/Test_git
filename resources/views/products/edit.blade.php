@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <h5>Edit Product</h5>
@@ -39,31 +39,19 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="stock" class="form-label">Stock</label>
-                            <input class="form-control" type="number" name="stock" id="stock"
-                                value="{{ old('stock', $product->stock) }}">
-                        </div>
-
-                        <div class="col-md-6">
                             <label for="description" class="form-label"></label>Description
-                            <textarea rows="5" cols="50" class="form-control" name="description"
-                                id="description">{{ old('description', $product->description) }}</textarea>
+                            <textarea rows="5" cols="50" class="form-control" name="description" id="description">{{ old('description', $product->description) }}</textarea>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="image" class="form-label">Image</label>
                             <input class="form-control" type="file" name="image" id="image">
                         </div>
-
-                        <button class="btn btn-primary">Update</button>
                     </div>
-
-
+                    <button class="btn btn-primary" style="width: 100px; display: block;">Update</button>
                 </form>
             </div>
         </div>
+        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary mt-2">Back</a>
     </div>
-
-
-
 @endsection

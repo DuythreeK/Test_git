@@ -15,7 +15,8 @@
 
                         <label for="name" class="form-label">Name</label>
 
-                        <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
+                        <input class="form-control" type="text" name="name" id="name"
+                            value="{{ old('name') }}">
 
                     </div>
 
@@ -28,8 +29,6 @@
                 </form>
             </div>
         </div>
+        <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary mt-2">Back</a>
     </div>
-
-
-
 @endsection

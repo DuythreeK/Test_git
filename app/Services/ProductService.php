@@ -9,34 +9,34 @@ class ProductService
     public function getAll(array $filters = [])
     {
         $products = Product::query()
-        ->with(['category', 'variants'])
-        ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', (int) $status))
-        ->when(
-            $filters['search'] ?? null,
-            fn ($q, $search) => $q->where('name', 'like', "%{$search}%")
-        )
-        ->when(
-            $filters['category'] ?? null,
-            fn ($q, $category) => $q->where('category_id', $category)
-        )
-        ->when(
-            $filters['min_price'] ?? null,
-            fn ($q, $min_price) => $q->where('price', '>=', $min_price)
-        )
-        ->when(
-            $filters['max_price'] ?? null,
-            fn ($q, $max_price) => $q->where('price', '<=', $max_price)
-        )
-        ->when(
-            $filters['sort'] ?? null,
-            fn ($q, $sort) => $q->orderBy('price', $sort)
-        );
+            ->with(['category', 'variants'])
+            ->when($filters['status'] ?? null, fn($q, $status) => $q->where('status', (int) $status))
+            ->when(
+                $filters['search'] ?? null,
+                fn($q, $search) => $q->where('name', 'like', "%{$search}%")
+            )
+            ->when(
+                $filters['category'] ?? null,
+                fn($q, $category) => $q->where('category_id', $category)
+            )
+            ->when(
+                $filters['min_price'] ?? null,
+                fn($q, $min_price) => $q->where('price', '>=', $min_price)
+            )
+            ->when(
+                $filters['max_price'] ?? null,
+                fn($q, $max_price) => $q->where('price', '<=', $max_price)
+            )
+            ->when(
+                $filters['sort'] ?? null,
+                fn($q, $sort) => $q->orderBy('price', $sort)
+            );
         return $products->paginate(15);
 
     }
     public function getById($id)
     {
-        $product = Product::with(['category', 'variants'])->findOrFail($id);
+        $product = Product::with(['category', 'variants.size'])->findOrFail($id);
         return $product;
     }
     public function store(array $product)

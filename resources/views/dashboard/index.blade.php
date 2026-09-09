@@ -135,7 +135,7 @@
                             @foreach ($topStockProducts as $product)
                                 <tr>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->variants_sum_stock }}</td>
                                     <td>{{ number_format($product->price, 2) }}</td>
                                 </tr>
                             @endforeach

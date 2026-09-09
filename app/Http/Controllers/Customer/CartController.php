@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
 use App\Services\CartService;
+use Exception;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -51,9 +52,13 @@ class CartController extends Controller
             'product_variant_id' => 'required',
             'quantity' => 'required|integer|min:1',
         ]);
-        $this->cartService->store($validated);
-        return redirect()->route('customer.cart.index');
 
+        try {
+            $this->cartService->store($validated);
+            return redirect()->route('customer.cart.index')->with('success', 'Product added to cart successfully.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -89,11 +94,15 @@ class CartController extends Controller
     {
         //
         $validated = $request->validate([
-            'quantity' => 'required|integer',
+            'quantity' => 'required|integer|min:1',
         ]);
-        $this->cartService->updateQuantity($validated, $id);
-        return redirect()->route('customer.cart.index');
 
+        try {
+            $this->cartService->updateQuantity($validated, $id);
+            return redirect()->route('customer.cart.index')->with('success', 'Cart updated successfully.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

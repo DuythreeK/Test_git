@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
                 <form action="{{ route('products.index') }}" method="GET" style="margin-bottom: 20px;">
-                    <div class="row g-3">    
+                    <div class="row g-3">
                         <div class="col-md-6 mb-2">
                             <label class="form-label" for="search">Search</label>
                             <input class="form-control" type="text" name="search" id="search"
@@ -34,7 +34,8 @@
                             <select class="form-select" name="category">
                                 <option value="">-- Category --</option>
                                 @foreach (\App\Models\Category::all() as $category)
-                                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}"
+                                        {{ request('category') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
@@ -59,9 +60,9 @@
 
                     </div>
                 </form>
-                    <a class="btn btn-primary" href="{{ route('products.create') }}">
-                        Add Product
-                    </a>
+                <a class="btn btn-primary" href="{{ route('products.create') }}">
+                    Add Product
+                </a>
             </div>
         </div>
 
@@ -71,99 +72,69 @@
             </div>
             <div class="card-body text-center">
                 <div class="table-responsive">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Price</th>
+                    <table class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Sum stock</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                                    </tr>
-                                </thead>
+                        <tbody>
+                            @foreach ($products as $product)
+                                <tr>
 
-                                <tbody>
-                                    @foreach ($products as $product)
-                                        <tr>
+                                    <td>{{ $product->id }}</td>
 
-                                            <td>{{ $product->id }}</td>
+                                    <td>{{ $product->name }}</td>
 
-                                            <td>{{ $product->name }}</td>
+                                    <td>{{ $product->category->name }}</td>
 
-                                            <td>{{ $product->category->name }}</td>
+                                    <td>{{ number_format($product->price) }}</td>
 
-                                            <td>{{ number_format($product->price) }}</td>
+                                    <td>{{ $product->variants->sum('stock') }}</td>
+                                    <td>
+                                        @if ($product->status === 1)
+                                            Active
+                                        @elseif($product->status === 0)
+                                            Inactive
+                                        @endif
+                                    </td>
 
+                                    <td>
 
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-striped table-hover align-middle mb-0">
-                                <thead class="table-dark">
-                                    <tr>
+                                        <a class="btn btn-primary" href="{{ route('products.show', $product) }}">View</a>
 
-                                        <th>Stock</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
+                                        <a class="btn btn-success" href="{{ route('products.edit', $product) }}">Edit</a>
 
-                                <tbody>
-                                    @foreach ($products as $product)
-                                        <tr>
+                                        <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                            style="display:inline">
 
+                                            @csrf
 
+                                            @method('DELETE')
 
-                                            <td>{{ $product->stock }}</td>
-                                            <td>
-                                                @if ($product->status === 1)
-                                                    Active
-                                                @elseif($product->status === 0)
-                                                    Inactive
-                                                @endif
-                                            </td>
+                                            <button class="btn btn-danger">Delete</button>
 
-                                            <td>
+                                        </form>
 
-                                                <a class="btn btn-primary" href="{{ route('products.show', $product) }}">View</a>
-
-                                                <a class="btn btn-success" href="{{ route('products.edit', $product) }}">Edit</a>
-
-                                                <form action="{{ route('products.destroy', $product) }}" method="POST"
-                                                    style="display:inline">
-
-                                                    @csrf
-
-                                                    @method('DELETE')
-
-                                                    <button class="btn btn-danger">Delete</button>
-
-                                                </form>
-
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-</div>
+        </div>
         <div class="d-flex justify-content-center mt-4">
             {{ $products->appends(request()->query())->links() }}
         </div>
-        </div>
-        
     </div>
 
-
+    </div>
 @endsection
