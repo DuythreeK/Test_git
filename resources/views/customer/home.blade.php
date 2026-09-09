@@ -13,7 +13,7 @@
                             View all available products
                         </p>
                         <button class="btn btn-outline-dark">
-                            <a href="{{ route('customer.products.index') }}">
+                            <a class="nav-link text-primary" href="{{ route('customer.products.index') }}">
                                 Product List
                             </a>
                         </button>
@@ -32,7 +32,7 @@
                             View products in your cart
                         </p>
                         <button class="btn btn-outline-dark">
-                            <a href="{{ route('customer.cart.index') }}">
+                            <a class="nav-link text-primary" href="{{ route('customer.cart.index') }}">
                                 Cart
                             </a>
                         </button>

@@ -15,7 +15,8 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="search" class="form-label">Search</label>
-                            <input class="form-control" type="text" name="search" id="search" value="{{ request('search') }}">
+                            <input class="form-control" type="text" name="search" id="search"
+                                value="{{ request('search') }}">
                         </div>
                         <div class="col-md-6">
                             <label for="category" class="form-label">Category</label>
@@ -37,17 +38,19 @@
 
                         <div class="col-md-6">
                             <label for="min_price" class="form-label">Min Price</label>
-                            <input class="form-control" type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
+                            <input class="form-control" type="number" name="min_price" id="min_price"
+                                value="{{ request('min_price') }}">
                         </div>
 
 
                         <div class="col-md-6">
-                            <label for="max_price" class="form-label" >Max Price</label>
-                            <input class="form-control" type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                            <label for="max_price" class="form-label">Max Price</label>
+                            <input class="form-control" type="number" name="max_price" id="max_price"
+                                value="{{ request('max_price') }}">
                         </div>
 
                         <div class="col-md-6">
-                            <label for="sort" class="form-label" >Sort</label>
+                            <label for="sort" class="form-label">Sort</label>
                             <select class="form-select" name="sort" id="sort">
                                 <option value="">Default</option>
                                 <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>
@@ -78,8 +81,8 @@
                     @forelse($products as $product)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="card h-100 shadow-sm">
-                                <img class="card-img-top" src="{{ asset('storage/' . $product->image) }}" alt="Product image"
-                                    style="height: 200px; object-fit: contain;">
+                                <img class="card-img-top" src="{{ asset('storage/' . $product->image) }}"
+                                    alt="Product image" style="height: 200px; object-fit: contain;">
 
                                 <div class="card-body bg-light">
                                     <h4 class="card-title">
@@ -94,11 +97,6 @@
                                     <p class="card-text">
                                         <strong>Price:</strong>
                                         <span style="color: goldenrod;">{{ number_format($product->price) }} VNĐ</span>
-                                    </p>
-
-                                    <p class="card-text">
-                                        <strong>Stock:</strong>
-                                        {{ $product->stock }}
                                     </p>
 
                                     <a href="{{ route('customer.products.show', $product) }}" class="btn btn-primary">

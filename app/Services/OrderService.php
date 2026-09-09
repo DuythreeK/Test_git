@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\CartItem;
+use App\Models\ProductVariant;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +13,12 @@ class OrderService
 {
     public function getAll()
     {
-        $orders = Order::paginate(10);
+        $orders = Order::with('user')->paginate(10);
         return $orders;
     }
     public function getById($id)
     {
-        $order = Order::with(['user', 'orderItems'])->findOrFail($id);
+        $order = Order::with(['user', 'orderItems.variant.product', 'orderItems.variant.size'])->findOrFail($id);
         return $order;
     }
     public function getByCustomer()
@@ -27,11 +28,11 @@ class OrderService
     }
     public function getCheckoutItems(array $cartItemIds)
     {
-        $cartItems = CartItem::with('product')
-        ->whereIn('id', $cartItemIds)
-        ->whereHas('cart', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
+        $cartItems = CartItem::with('variant.product', 'variant.size')
+            ->whereIn('id', $cartItemIds)
+            ->whereHas('cart', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })->get();
         return $cartItems;
     }
     public function storeOrder($validated)
@@ -41,7 +42,7 @@ class OrderService
 
             $totalPrice = 0;
             foreach ($cartItems as $item) {
-                $totalPrice += $item->product->price * $item->quantity;
+                $totalPrice += $item->variant->product->price * $item->quantity;
             }
             $order = Order::create([
                 'user_id' => auth()->user()->id,
@@ -50,17 +51,21 @@ class OrderService
                 'status' => 'pending',
                 'shipping_address' => $validated['shipping_address'],
                 'note' => $validated['note'],
+                'receiver_name' => $validated['receiver_name'],
+                'phone' => $validated['phone'],
             ]);
-
 
             foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $item->product->id,
+                    'product_variant_id' => $item->variant->id,
                     'quantity' => $item->quantity,
-                    'price' => $item->product->price,
-                    'subtotal' => $item->product->price * $item->quantity,
+                    'price' => $item->variant->product->price,
+                    'subtotal' => $item->variant->product->price * $item->quantity,
                 ]);
+                $variant = $item->variant;
+                $variant->stock -= $item->quantity;
+                $variant->save();
             }
             CartItem::destroy($validated['cart_items']);
         });

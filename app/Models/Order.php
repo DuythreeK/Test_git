@@ -17,6 +17,8 @@ class Order extends Model
         'shipping_address',
         'note',
         'status',
+        'receiver_name',
+        'phone'
     ];
     public function user(): BelongsTo
     {

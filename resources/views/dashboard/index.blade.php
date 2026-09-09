@@ -78,7 +78,7 @@
                                 <tr>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ number_format($product->price, 2) }}</td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->variants->sum('stock') }}</td>
                                     <td>{{ $product->order_items_count }}</td>
                                 </tr>
                             @endforeach
@@ -106,9 +106,10 @@
                         <tbody>
                             @foreach ($topSellingProducts as $item)
                                 <tr>
-                                    <td>{{ $item->product ? $item->product->name : '' }}</td>
+                                    <td>{{ $item->variant->product ? $item->variant->product->name : '' }}</td>
                                     <td>{{ $item->total_sold }}</td>
-                                    <td>{{ number_format($item->product ? $item->product->price : 0, 2) }}</td>
+                                    <td>{{ number_format($item->variant->product ? $item->variant->product->price : 0, 2) }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -134,7 +135,7 @@
                             @foreach ($topStockProducts as $product)
                                 <tr>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->variants_sum_stock }}</td>
                                     <td>{{ number_format($product->price, 2) }}</td>
                                 </tr>
                             @endforeach
