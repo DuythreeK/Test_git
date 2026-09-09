@@ -71,7 +71,7 @@
                                 @foreach ($product->variants as $variant)
                                     <input type="radio" class="btn-check" name="product_variant_id"
                                         id="size-{{ $variant->id }}" value="{{ $variant->id }}"
-                                        {{ $variant->stock <= 0 ? 'disabled' : '' }} autocomplete="off">
+                                        {{ $variant->stock <= 0 ? 'disabled' : '' }}>
                                     <label class="btn btn-outline-primary size-option" for="size-{{ $variant->id }}">
                                         Size {{ $variant->size->name }}
                                         @if ($variant->stock <= 0)

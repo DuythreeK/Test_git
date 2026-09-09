@@ -57,7 +57,7 @@ class CartController extends Controller
             $this->cartService->store($validated);
             return redirect()->route('customer.cart.index')->with('success', 'Product added to cart successfully.');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', '$e->getMessage()');
         }
     }
 

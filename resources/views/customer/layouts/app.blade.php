@@ -46,7 +46,8 @@
         </div>
         {{-- Success --}}
         @if (session('success'))
-            <div style="color: green; background-color: white;" class="alert alert-sucess alert-dismissible fade show">
+            {{-- style="color: green; background-color: white;" --}}
+            <div class="alert alert-success alert-dismissible fade show">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -58,21 +59,21 @@
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
+        @endif
 
-            {{-- Errors --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>
-                                {{ $error }}
-                            </li>
-                        @endforeach
+        {{-- Errors --}}
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show">
+                <ul style="list-style: decimal">
+                    @foreach ($errors->all() as $error)
+                        <li>
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></buttn>
+            </div>
 
-                    </ul>
-                </div>
-
-            @endif
         @endif
         @yield('content')
 
