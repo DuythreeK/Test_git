@@ -1,45 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>{{ $product->name }}</h2>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
 
-    <p>
+                <h2>{{ $product->name }}</h2>
 
-        Category :
+                <p>
+                    <strong>Category :</strong>
+                    {{ $product->category->name }}
+                </p>
 
-        {{ $product->category->name }}
+                <p>
+                    <strong>Price :</strong>
 
-    </p>
+                    {{ $product->price }}
+                </p>
 
-    <p>
+                <p>
+                    <strong>Sum stock</strong> :
+                    {{ $product->variants->sum('stock') }}
 
-        Price :
+                </p>
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Stock</th>
+                        </tr>
 
-        {{ $product->price }}
+                    </thead>
 
-    </p>
+                    <tbody>
+                        @foreach ($product->variants ?? '' as $variant)
+                            <tr>
+                                <td>{{ $variant->size->name }}</td>
+                                <td>{{ $variant->stock }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <p>
+                    <strong>Description:</strong>
+                </p>
 
-    <p>
+                <p>
+                    {{ $product->description }}
+                </p>
 
-        Stock :
-
-        {{ $product->stock }}
-
-    </p>
-
-    <p>
-
-        Description
-
-    </p>
-
-    <p>
-
-        {{ $product->description }}
-
-    </p>
-
-    @if ($product->image)
-        <img src="{{ asset('storage/' . $product->image) }}" width="200px">
-    @endif
+                @if ($product->image)
+                    <img src="{{ asset('storage/' . $product->image) }}" width="200px">
+                @endif
+            </div>
+        </div>
+        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary mt-2">Back</a>
+    </div>
 @endsection

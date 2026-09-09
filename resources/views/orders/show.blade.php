@@ -1,43 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Order #{{ $order->id }}</h2>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Order #{{ $order->id }}</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-title">
 
-    <p>
+                    <strong>Customer :</strong> {{ $order->user->name }}
+                </p>
+                <p class="card-title">
+                    <strong> Receiver name :</strong> {{ $order->receiver_name ?? '' }}
+                </p>
+                <p class="card-title">
+                    <strong> Phone :</strong> {{ $order->phone ?? '' }}
+                </p>
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
 
-        Customer :
+                            <th>Product</th>
 
-        {{ $order->user->name }}
+                            <th>Price</th>
 
-    </p>
+                            <th>Size</th>
 
-    <table border="1">
+                            <th>Qty</th>
 
-        <tr>
+                            <th>Subtotal</th>
 
-            <th>Product</th>
+                        </tr>
+                    </thead>
 
-            <th>Price</th>
+                    <tbody>
+                        @foreach ($order->orderItems as $item)
+                            <tr>
 
-            <th>Qty</th>
+                                <td>{{ $item->variant->product->name }}</td>
 
-            <th>Subtotal</th>
+                                <td>{{ $item->price }}</td>
 
-        </tr>
+                                <td>{{ $item->variant->size->name ?? 'N/A' }}</td>
 
-        @foreach ($order->orderItems as $item)
-            <tr>
+                                <td>{{ $item->quantity }}</td>
 
-                <td>{{ $item->product->name }}</td>
+                                <td>{{ $item->subtotal }}</td>
 
-                <td>{{ $item->price }}</td>
-
-                <td>{{ $item->quantity }}</td>
-
-                <td>{{ $item->subtotal }}</td>
-
-            </tr>
-        @endforeach
-
-    </table>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary mt-2">Back</a>
+    </div>
 @endsection

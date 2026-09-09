@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ProductVariant;
 use Illuminate\Database\Eloquent\Collection;
 
 class DashboardService
@@ -38,8 +39,9 @@ class DashboardService
 
     public function getTotalInventoryValue()
     {
-        $totalInventoryValue =  Product::query()
-            ->selectRaw('SUM( price*stock) as total_inventory_value')
+        $totalInventoryValue =  ProductVariant::query()
+        ->join('products', 'product_variants.product_id', '=', 'products.id')
+            ->selectRaw('SUM( products.price * product_variants.stock) as total_inventory_value')
             ->value('total_inventory_value');
         return $totalInventoryValue;
     }
@@ -47,6 +49,7 @@ class DashboardService
     public function getTopExpensiveProducts()
     {
         $topExpensiveProducts = Product::query()
+            ->with(['variants'])
             ->withCount('orderItems')
             ->orderByDesc('price')
             ->limit(5)
@@ -56,9 +59,9 @@ class DashboardService
     public function getTopSellingProducts()
     {
         $topSellingProducts = OrderItem::query()
-        ->selectRaw('product_id, SUM(quantity) as total_sold')
-        ->with('product')
-        ->groupBy('product_id')
+        ->selectRaw('product_variant_id, SUM(quantity) as total_sold')
+        ->with(['variant.product','variant.size'])
+        ->groupBy('product_variant_id')
         ->orderByDesc('total_sold')
         ->limit(5)
         ->get();
@@ -69,7 +72,8 @@ class DashboardService
     public function getTopStockProducts()
     {
         $topStockProducts = Product::query()
-        ->orderByDesc('stock')
+        ->withSum('variants', 'stock')
+        ->orderByDesc('variants_sum_stock')
         ->limit(5)
         ->get();
         return $topStockProducts;

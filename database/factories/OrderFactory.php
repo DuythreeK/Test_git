@@ -25,6 +25,8 @@ class OrderFactory extends Factory
             'total_price' => 0,
             'shipping_address' => $this->faker->address(),
             'note' => $this->faker->sentence(),
+            'receiver_name' => $this->faker->name(),
+            'phone' => $this->faker->phoneNumber(),
         ];
     }
 }

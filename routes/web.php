@@ -63,6 +63,7 @@ Route::prefix('customer')->middleware('customer')->name('customer.')->group(func
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('orders', OrderController::class);
+    Route::patch('orders/{order}/updateStatus', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('dashboard', DashboardController::class);
