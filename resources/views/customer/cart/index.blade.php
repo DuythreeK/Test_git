@@ -65,7 +65,8 @@
 
                                         <td>
 
-                                            <a href="{{ route('customer.products.show', $item->variant->product) }}">
+                                            <a href="{{ route('customer.products.show', $item->variant->product) }}"
+                                                class="nav-link">
                                                 {{ $item->variant->product->name }}
                                             </a>
 

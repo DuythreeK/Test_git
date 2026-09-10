@@ -16,7 +16,7 @@ class VNPayService
         $vnp_Url = config('vnpay.url');
         $vnp_Returnurl = config('vnpay.return_url');
 
-        $vnp_TxnRef = (string) $order->id; // Mã tham chiếu đơn hàng
+        $vnp_TxnRef = $order->id . '_' . time(); // Mã tham chiếu giao dịch duy nhất cho mỗi lần bấm thanh toán
         $vnp_OrderInfo = 'Thanh toan don hang #' . $order->id;
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = (int) ($order->total_price * 100); // VNPay tính theo đơn vị Đồng * 100

@@ -63,7 +63,8 @@ class OrderController extends Controller
             return redirect()->route('customer.orders.index')->with('error', 'Invalid payment signature!');
         }
 
-        $orderId = $request->get('vnp_TxnRef');
+        $vnp_TxnRef = $request->get('vnp_TxnRef');
+        $orderId = explode('_', $vnp_TxnRef)[0];
         $responseCode = $request->get('vnp_ResponseCode');
         $transactionId = $request->get('vnp_TransactionNo');
 
@@ -83,6 +84,22 @@ class OrderController extends Controller
             'payment_transaction_id' => $transactionId,
         ]);
         return redirect()->route('customer.orders.index')->with('success', 'Your VNPay payment was unsuccessful or has been canceled.');
+    }
+    public function createPayment(Order $order)
+    {
+        if ($order->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        try {
+            if ($order->payment_method === 'vnpay' && $order->payment_status !== 'paid') {
+                $paymentUrl = $this->vnpayService->createPaymentUrl($order);
+                return redirect()->away($paymentUrl);
+            }
+            return redirect()->route('customer.orders.show', $order)->with('info', 'Order is already paid or not using VNPay.');
+        } catch (Exception $e) {
+            return redirect()->route('customer.orders.index')->with('error', 'Your VNPay payment creation failed.');
+        }
     }
     public function index()
     {

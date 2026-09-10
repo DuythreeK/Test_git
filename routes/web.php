@@ -57,8 +57,9 @@ Route::prefix('customer')->middleware('customer')->name('customer.')->group(func
     Route::post('orders/checkout', [CustomerOrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('orders', [CustomerOrderController::class, 'store'])->name('orders.store');
     Route::get('orders', [CustomerOrderController::class, 'index'])->name('orders.index');
-    Route::get('orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
     Route::get('orders/vnpay-return', [CustomerOrderController::class, 'vnpayReturn'])->name('orders.vnpay');
+    Route::get('orders/createpayment/{order}', [CustomerOrderController::class, 'createPayment'])->name('orders.createpayment');
+    Route::get('orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
 });
 
 //Admin Routes
@@ -69,7 +70,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('dashboard', DashboardController::class);
-
 });
 
 // Route::get('user/name/{name?}', function (?string $name = 'John'){

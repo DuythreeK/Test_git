@@ -12,9 +12,13 @@
                 <p><strong>Status: </strong>{{ $order->status }}</p>
                 <p><strong>Shipping address: </strong>{{ $order->shipping_address }}</p>
                 <p><strong>Note: </strong>{{ $order->note }}</p>
-                <p><strong>Total price: </strong>{{ $order->total_price }}</p>
+                <p><strong>Total price: </strong>{{ number_format($order->total_price) }}</p>
                 <p><strong>Payment method: </strong>{{ $order->payment_method }}</p>
-                <p><strong>Payment status: </strong>{{ $order->payment_status }}</p>
+                <p><strong>Payment status: </strong>{{ $order->payment_status }}
+                    @if ($order->payment_method === 'vnpay' && $order->payment_status !== 'paid')
+                        <a href="{{ route('customer.orders.createpayment', $order) }}" class="btn btn-success">Pay now</a>
+                    @endif
+                </p>
                 <div class="card">
                     <div class="card-header bg-dark text-white">
                         <h6>Order items</h6>
@@ -46,6 +50,6 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-outline-secondary mt-2" type="button" onclick="history.back()"> Back </button>
+        <a href="{{ route('customer.orders.index') }}" class="btn btn-outline-secondary mb-2 mt-2">Back</a>
     </div>
 @endsection
