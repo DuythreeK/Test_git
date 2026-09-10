@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderSuccessMail;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Services\VNPayService;
 use App\Models\Order;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -51,6 +53,7 @@ class OrderController extends Controller
                 $paymentUrl = $this->vnpayService->createPaymentUrl($order);
                 return redirect()->away($paymentUrl);
             }
+            Mail::to(auth()->user()->email)->send(new OrderSuccessMail($order));
             return redirect()->route('customer.cart.index')->with('success', 'Order successfully');
         } catch (Exception $e) {
             return redirect()->route('customer.cart.index')->withInput()->with('error', 'Order failed');
@@ -63,8 +66,7 @@ class OrderController extends Controller
             return redirect()->route('customer.orders.index')->with('error', 'Invalid payment signature!');
         }
 
-        $vnp_TxnRef = $request->get('vnp_TxnRef');
-        $orderId = explode('_', $vnp_TxnRef)[0];
+        $orderId = $request->get('vnp_TxnRef');
         $responseCode = $request->get('vnp_ResponseCode');
         $transactionId = $request->get('vnp_TransactionNo');
 
@@ -76,6 +78,7 @@ class OrderController extends Controller
                 'payment_transaction_id' => $transactionId,
                 'payment_date' => now(),
             ]);
+            Mail::to($order->user->email ?? auth()->user()->email)->send(new OrderSuccessMail($order));
             return redirect()->route('customer.orders.index')->with('success', 'Your VNPay payment was successful!');
         }
 
@@ -87,10 +90,6 @@ class OrderController extends Controller
     }
     public function createPayment(Order $order)
     {
-        if ($order->user_id !== auth()->id()) {
-            abort(403);
-        }
-
         try {
             if ($order->payment_method === 'vnpay' && $order->payment_status !== 'paid') {
                 $paymentUrl = $this->vnpayService->createPaymentUrl($order);

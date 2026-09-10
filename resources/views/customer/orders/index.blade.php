@@ -68,7 +68,7 @@
         <div class="d-flex justify-content-center">
             {{ $orders->links() }}
         </div>
-        <button class="btn btn-outline-secondary mb-2" type="button" onclick="history.back()">Back</button>
+        <a href="{{ route('customer.cart.index') }}" class="btn btn-outline-secondary mb-2 mt-2">Back</a>
     </div>
 
 

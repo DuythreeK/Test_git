@@ -13,7 +13,9 @@ class CartService
 {
     public function getByUserId($userId)
     {
-        $cart = Cart::with(['cartItems.variant.product', 'cartItems.variant.size'])->where('user_id', $userId)->first();
+        $cart = Cart::with(['cartItems' => function ($query) {
+            $query->latest();
+        }, 'cartItems.variant.product', 'cartItems.variant.size'])->where('user_id', $userId)->first();
         return $cart;
     }
     public function store($validated): void
