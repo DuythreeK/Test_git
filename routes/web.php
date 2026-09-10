@@ -57,6 +57,7 @@ Route::prefix('customer')->middleware('customer')->name('customer.')->group(func
     Route::post('orders/checkout', [CustomerOrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('orders', [CustomerOrderController::class, 'store'])->name('orders.store');
     Route::get('orders', [CustomerOrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/vnpay-return', [CustomerOrderController::class, 'vnpayReturn'])->name('orders.vnpay');
 });
 
 //Admin Routes

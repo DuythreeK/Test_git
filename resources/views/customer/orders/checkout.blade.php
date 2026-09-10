@@ -99,8 +99,28 @@
                     <br>
                     <textarea class="form-control" name="note"></textarea>
                 </p>
+                <div>
+                    <p><strong>Payment method</strong></p>
+                    <div class="mb-4 d-flex gap-4">
+                        <div>
+                            <input type="radio" class="btn-check" name="payment_method" value="cod" id="cod"
+                                checked>
+                            <label for="cod" class="btn btn btn-outline-primary">
+                                <p class="fw-bold">Cash on Delivery (COD)</p>
+                                <small>Pay when your order arrives</small>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" class="btn-check" name="payment_method" value="vnpay" id="vnpay">
+                            <label for="vnpay" class="btn btn-outline-primary">
+                                <p class="fw-bold">VNPay</p>
+                                <small>Pay securely via VNPay</small>
+                            </label>
+                        </div>
 
-                <button class="btn btn-outline-success" type="submit">Place Order</button>
+                    </div>
+                    <button class="btn btn-outline-success" type="submit">Place Order</button>
+                </div>
                 </form>
             </div>
 

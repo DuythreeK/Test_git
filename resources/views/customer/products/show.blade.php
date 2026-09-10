@@ -102,7 +102,7 @@
 
             </div>
         </div>
-        <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary mt-2">
+        <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary mt-2 mb-2">
 
             Back
 

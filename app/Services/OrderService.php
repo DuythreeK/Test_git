@@ -23,7 +23,7 @@ class OrderService
     }
     public function getByCustomer()
     {
-        $orders = Order::where('user_id', auth()->user()->id)->get();
+        $orders = Order::where('user_id', auth()->user()->id)->latest()->get();
         return $orders;
     }
     public function getCheckoutItems(array $cartItemIds)
@@ -35,9 +35,9 @@ class OrderService
             })->get();
         return $cartItems;
     }
-    public function storeOrder($validated)
+    public function storeOrder(array $validated): Order
     {
-        DB::transaction(function () use ($validated) {
+        return DB::transaction(function () use ($validated) {
             $cartItems = $this->getCheckoutItems($validated['cart_items']);
 
             $totalPrice = 0;
@@ -53,6 +53,8 @@ class OrderService
                 'note' => $validated['note'],
                 'receiver_name' => $validated['receiver_name'],
                 'phone' => $validated['phone'],
+                'payment_method' => $validated['payment_method'] ?? 'cod',
+                'payment_status' => 'unpaid',
             ]);
 
             foreach ($cartItems as $item) {
@@ -68,6 +70,7 @@ class OrderService
                 $variant->save();
             }
             CartItem::destroy($validated['cart_items']);
+            return $order;
         });
     }
     public function updateStatus(Order $order, $status)

@@ -18,7 +18,11 @@ class Order extends Model
         'note',
         'status',
         'receiver_name',
-        'phone'
+        'phone',
+        'payment_method',
+        'payment_status',
+        'payment_transaction_id',
+        'payment_date',
     ];
     public function user(): BelongsTo
     {
