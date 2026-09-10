@@ -23,7 +23,7 @@ class OrderService
     }
     public function getByCustomer()
     {
-        $orders = Order::where('user_id', auth()->user()->id)->latest()->get();
+        $orders = Order::where('user_id', auth()->user()->id)->latest()->paginate(10);
         return $orders;
     }
     public function getCheckoutItems(array $cartItemIds)

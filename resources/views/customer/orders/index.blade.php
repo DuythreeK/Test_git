@@ -25,10 +25,13 @@
                                 Shipping address
                             </th>
                             <th>
-                                Note
+                                Payment method
                             </th>
                             <th>
-                                Created at
+                                Payment status
+                            </th>
+                            <th>
+                                Action
                             </th>
                         </tr>
                     </thead>
@@ -48,17 +51,24 @@
                                 {{ $order->shipping_address }}
                             </td>
                             <td>
-                                {{ $order->note }}
+                                {{ $order->payment_method }}
                             </td>
                             <td>
-                                {{ $order->created_at }}
+                                {{ $order->payment_status }}
                             </td>
+                            <td>
+                                <a href="{{ route('customer.orders.show', $order) }}" class="btn btn-primary">Detail</a>
+                            </td>
+
                         </tr>
                     @endforeach
                 </table>
             </div>
         </div>
-        <button class="btn btn-outline-secondary" type="button" onclick="history.back()">Back</button>
+        <div class="d-flex justify-content-center">
+            {{ $orders->links() }}
+        </div>
+        <button class="btn btn-outline-secondary mb-2" type="button" onclick="history.back()">Back</button>
     </div>
 
 

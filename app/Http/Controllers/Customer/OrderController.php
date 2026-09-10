@@ -93,4 +93,9 @@ class OrderController extends Controller
             'orders' => $orders,
         ]);
     }
+    public function show(Order $order)
+    {
+        $order = $this->orderService->getById($order->id);
+        return view('customer.orders.show', ['order' => $order]);
+    }
 }
