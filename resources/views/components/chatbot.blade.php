@@ -1,9 +1,4 @@
 <div id="chatbot">
-
-    {{-- ============================= --}}
-    {{-- CHAT WINDOW --}}
-    {{-- ============================= --}}
-
     <div id="chatWindow" class="card shadow-lg border-0 d-none"
         style="
             position: fixed;
@@ -56,11 +51,9 @@
                     <small class="text-muted d-block mb-1">
                         AI Assistant
                     </small>
-                    Xin chào! 👋
-
-                    <br>
-
-                    Tôi có thể giúp gì cho bạn?
+                    Xin chào! 👋 Mình là trợ lý của Simple Shop.<br>
+                    Shop chuyên về <strong>Giày thể thao & Sneaker</strong> chính hãng. Bạn cần tìm mẫu giày (Sneaker,
+                    Running, Basketball...) hay cần tư vấn đo size giày (36-45) cứ nhắn cho mình nhé! 👟
                 </div>
 
             </div>
@@ -73,8 +66,8 @@
 
             <div class="input-group">
 
-                <input type="text" id="chatInput" class="form-control" placeholder="Nhập tin nhắn..."
-                    autocomplete="off">
+                <input type="text" id="chatInput" class="form-control"
+                    placeholder="Hỏi về mẫu giày, tư vấn size chân..." autocomplete="off">
 
                 <button type="button" id="sendMessage" class="btn btn-primary">
                     <i class="bi bi-send"></i>
@@ -109,10 +102,6 @@
 </div>
 
 
-{{-- ============================= --}}
-{{-- JAVASCRIPT --}}
-{{-- ============================= --}}
-
 <script>
     const openChat = document.getElementById('openChat');
 
@@ -132,11 +121,10 @@
     // =========================
 
     openChat.addEventListener('click', function() {
-
-        chatWindow.classList.remove('d-none');
-
-        openChat.classList.add('d-none');
-
+        if (chatWindow.classList.contains('d-none')) {
+            chatWindow.classList.remove('d-none');
+        } else
+            chatWindow.classList.add('d-none');
         chatInput.focus();
 
     });
@@ -150,16 +138,16 @@
 
         chatWindow.classList.add('d-none');
 
-        openChat.classList.remove('d-none');
+        // openChat.classList.remove('d-none');
 
     });
 
 
     // =========================
-    // SEND MESSAGE
+    // SEND MESSAGE (CÓ LOADING & GỌI API)
     // =========================
 
-    function sendChatMessage() {
+    async function sendChatMessage() {
 
         const message = chatInput.value.trim();
 
@@ -167,92 +155,103 @@
             return;
         }
 
-
         // -------------------------
-        // USER MESSAGE
+        // 1. USER MESSAGE
         // -------------------------
-
         const userMessage = document.createElement('div');
-
-        userMessage.className =
-            'd-flex justify-content-end mb-3';
-
-
+        userMessage.className = 'd-flex justify-content-end mb-3';
         userMessage.innerHTML = `
-
-            <div
-                class="bg-primary text-white rounded-3 p-2"
-                style="max-width: 80%;"
-            >
-
+            <div class="bg-primary text-white rounded-3 p-2" style="max-width: 80%;">
                 ${message}
-
             </div>
-
         `;
-
-
         chatMessages.appendChild(userMessage);
 
-
-        // Clear input
-
+        // Clear input và scroll
         chatInput.value = '';
-
-
-        // Scroll xuống cuối
-
-        chatMessages.scrollTop =
-            chatMessages.scrollHeight;
-
+        chatMessages.scrollTop = chatMessages.scrollHeight;
 
         // -------------------------
-        // BOT RESPONSE
+        // 2. HIỆN BONG BÓNG LOADING & KHÓA NÚT
         // -------------------------
+        chatInput.disabled = true;
+        sendMessage.disabled = true;
 
-        setTimeout(function() {
+        const loadingId = 'chat-loading-' + Date.now();
+        const loadingMessage = document.createElement('div');
+        loadingMessage.id = loadingId;
+        loadingMessage.className = 'd-flex mb-3';
+        loadingMessage.innerHTML = `
+            <div class="bg-white border rounded-3 p-2 shadow-sm text-muted" style="max-width: 80%;">
+                <small class="text-muted d-block mb-1">AI Assistant</small>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                    <small>Đang tìm giày phù hợp...</small>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(loadingMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            const botMessage =
-                document.createElement('div');
+        // -------------------------
+        // 3. GỌI API BACKEND LARAVEL
+        // -------------------------
+        try {
+            const response = await fetch('{{ route('chatbot.send') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            });
 
+            const data = await response.json();
 
-            botMessage.className =
-                'd-flex mb-3';
+            // Xóa bong bóng loading
+            const loadingEl = document.getElementById(loadingId);
+            if (loadingEl) loadingEl.remove();
 
-
+            // -------------------------
+            // 4. HIỂN THỊ CÂU TRẢ LỜI AI
+            // -------------------------
+            const botMessage = document.createElement('div');
+            botMessage.className = 'd-flex mb-3';
             botMessage.innerHTML = `
-
-                <div
-                    class="bg-white border rounded-3 p-2 shadow-sm"
-                    style="max-width: 80%;"
-                >
-
+                <div class="bg-white border rounded-3 p-2 shadow-sm" style="max-width: 80%;">
                     <small class="text-muted d-block mb-1">
                         AI Assistant
                     </small>
-
-                    Tôi đã nhận được:
-
-                    <strong>
-                        ${message}
-                    </strong>
-
-                    🤖
-
+                    <div style="white-space: pre-line;">${data.reply || 'Xin lỗi, mình chưa tìm thấy thông tin phù hợp.'}</div>
                 </div>
-
             `;
-
-
             chatMessages.appendChild(botMessage);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
+        } catch (error) {
+            console.error('Lỗi kết nối chatbot:', error);
+            const loadingEl = document.getElementById(loadingId);
+            if (loadingEl) loadingEl.remove();
 
-            // Scroll xuống cuối
-
-            chatMessages.scrollTop =
-                chatMessages.scrollHeight;
-
-        }, 700);
+            const botMessage = document.createElement('div');
+            botMessage.className = 'd-flex mb-3';
+            botMessage.innerHTML = `
+                <div class="bg-white border border-danger text-danger rounded-3 p-2 shadow-sm" style="max-width: 80%;">
+                    <small class="d-block mb-1">Hệ thống</small>
+                    Có lỗi kết nối tạm thời. Bạn vui lòng thử lại nhé!
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } finally {
+            // Mở khóa input và nút gửi
+            chatInput.disabled = false;
+            sendMessage.disabled = false;
+            chatInput.focus();
+        }
 
     }
 
@@ -261,28 +260,18 @@
     // CLICK SEND
     // =========================
 
-    sendMessage.addEventListener(
-        'click',
-        sendChatMessage
-    );
+    sendMessage.addEventListener('click', sendChatMessage);
 
 
     // =========================
     // PRESS ENTER
     // =========================
 
-    chatInput.addEventListener(
-        'keydown',
-        function(event) {
-
-            if (event.key === 'Enter') {
-
-                event.preventDefault();
-
-                sendChatMessage();
-
-            }
-
+    chatInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendChatMessage();
         }
-    );
+
+    });
 </script>

@@ -49,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+// Chatbot Route
+Route::post('/chatbot/send', [\App\Http\Controllers\Customer\ChatbotController::class, 'sendMessage'])->name('chatbot.send');
+
 
 //Customer Routes
 Route::prefix('customer')->middleware('customer')->name('customer.')->group(function () {

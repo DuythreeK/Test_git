@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <style>
+        #card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 400px;
+        }
+
+        .card {
+            padding: 30px;
+            background: #eee;
+            border: 1px solid #ccc;
+            cursor: grab;
+
+            transition: transform 1s ease;
+        }
+
+        .card:active {
+            cursor: grabbing;
+        }
+
+        .card.dragging {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="card-list">
+        <div class="card" draggable="true">Card A</div>
+        <div class="card" draggable="true">Card B</div>
+        <div class="card" draggable="true">Card C</div>
+        <div class="card" draggable="true">Card D</div>
+    </div>
+    <script>
+        const cardList = document.querySelector('#card-list');
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+
+            // Bắt đầu kéo
+            card.addEventListener('dragstart', () => {
+                card.classList.add('dragging');
+            });
+
+            // Kết thúc kéo
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+            });
+        });
+
+        cardList.addEventListener('dragover', (e) => {
+
+            e.preventDefault();
+
+            const draggingCard = document.querySelector('.dragging');
+
+            const cards = [...cardList.querySelectorAll('.card:not(.dragging)')];
+
+            const nextCard = cards.find(card => {
+                const rect = card.getBoundingClientRect();
+
+                return e.clientY < rect.top + rect.height / 2;
+            });
+
+            if (nextCard) {
+                cardList.insertBefore(draggingCard, nextCard);
+            } else {
+                cardList.appendChild(draggingCard);
+            }
+        });
+    </script>
+</body>
+
+</html>

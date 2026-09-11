@@ -88,7 +88,7 @@
             </p>
         </div>
     </footer>
-    {{-- <x-chatbot /> --}}
+    <x-chatbot />
 </body>
 
 </html>
