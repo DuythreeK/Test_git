@@ -19,6 +19,8 @@
             </li>
             <li class="nav-item"><a href="{{ route('categories.index') }}" class="nav-link text-white">Categories</a>
             </li>
+            <li class="nav-item"><a href="{{ route('sizes.index') }}" class="nav-link text-white">Sizes</a>
+            </li>
             <li class="nav-item"><a href="{{ route('orders.index') }}" class="nav-link text-white">Orders</a></li>
         </ul>
         <div class="mt-auto">
@@ -36,6 +38,7 @@
         @yield('content')
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <x-toast />
 </body>
 
 </html>

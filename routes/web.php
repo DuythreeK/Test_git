@@ -9,6 +9,7 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
+use App\Http\Controllers\SizeController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -68,6 +69,7 @@ Route::prefix('customer')->middleware('customer')->name('customer.')->group(func
 //Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
+    Route::resource('sizes', SizeController::class);
     Route::resource('orders', OrderController::class);
     Route::patch('orders/{order}/updateStatus', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::resource('products', ProductController::class);

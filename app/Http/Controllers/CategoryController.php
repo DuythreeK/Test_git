@@ -28,11 +28,9 @@ class CategoryController extends Controller
 
             $categories = $this->categoryService->getAll();
             return view("categories.index", compact('categories'));
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to retrieve categories: ' . $e->getMessage());
         }
-
     }
 
     /**
@@ -58,8 +56,6 @@ class CategoryController extends Controller
         $validated = $request->validated();
         $this->categoryService->store($validated);
         return redirect()->route('categories.index');
-
-
     }
 
     /**
@@ -108,12 +104,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
-        // if (!$category->products()->exists()) {
-        $this->categoryService->destroy($category);
-        return redirect()->route('categories.index');
-        // }
-        // return redirect()->route('categories.index')->with('error', 'Category has products and cannot bo deleted');
 
+        if (!$category->products()->exists()) {
+            $this->categoryService->destroy($category);
+            return redirect()->route('categories.index');
+        }
+        return redirect()->route('categories.index')->with('error', 'Category has products and cannot bo deleted');
     }
 }

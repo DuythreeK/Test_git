@@ -29,7 +29,7 @@
 
                                     <td>{{ $order->user->name }}</td>
 
-                                    <td>{{ $order->total_price }}</td>
+                                    <td>{{ number_format($order->total_price) }}</td>
                                     <td>
                                         <form action="{{ route('orders.updateStatus', $order) }}" method="POST">
                                             @csrf
@@ -38,13 +38,16 @@
                                                 <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>
                                                     pending
                                                 </option>
-                                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                <option value="processing"
+                                                    {{ $order->status == 'processing' ? 'selected' : '' }}>
                                                     processing
                                                 </option>
-                                                <option value="shipping" {{ $order->status == 'shipping' ? 'selected' : '' }}>
+                                                <option value="shipping"
+                                                    {{ $order->status == 'shipping' ? 'selected' : '' }}>
                                                     shipping
                                                 </option>
-                                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>
+                                                <option value="completed"
+                                                    {{ $order->status == 'completed' ? 'selected' : '' }}>
                                                     completed
                                                 </option>
                                             </select>
@@ -74,6 +77,4 @@
             {{ $orders->links() }}
         </div>
     </div>
-
-
 @endsection

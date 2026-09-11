@@ -5,18 +5,6 @@
         <div class="text-center">
             <h2>Category</h2>
         </div>
-        @if (session('error'))
-            <div style="color: red;">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @if (session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <a class="btn btn-outline-primary" href="{{ route('categories.create') }}">
             Create
         </a>
