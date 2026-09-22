@@ -94,7 +94,7 @@ class OrderController extends Controller
     {
         $validated = $request->validate(
             [
-                'status' => 'required|in:pending,processing,shipping,completed',
+                'status' => 'required|in:pending,processing,shipping,completed,cancelled',
             ]
         );
         $this->orderService->updateStatus($order, $validated['status']);

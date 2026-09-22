@@ -38,14 +38,21 @@
                                                 <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>
                                                     pending
                                                 </option>
-                                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                <option value="processing"
+                                                    {{ $order->status == 'processing' ? 'selected' : '' }}>
                                                     processing
                                                 </option>
-                                                <option value="shipping" {{ $order->status == 'shipping' ? 'selected' : '' }}>
+                                                <option value="shipping"
+                                                    {{ $order->status == 'shipping' ? 'selected' : '' }}>
                                                     shipping
                                                 </option>
-                                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>
+                                                <option value="completed"
+                                                    {{ $order->status == 'completed' ? 'selected' : '' }}>
                                                     completed
+                                                </option>
+                                                <option value="cancelled"
+                                                    {{ $order->status == 'cancelled' ? 'selected' : '' }}>
+                                                    cancelled
                                                 </option>
                                             </select>
                                         </form>
@@ -74,6 +81,4 @@
             {{ $orders->links() }}
         </div>
     </div>
-
-
 @endsection

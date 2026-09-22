@@ -7,14 +7,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            Product List
+                            Danh sách sản phẩm
                         </h5>
                         <p class="card-text">
-                            View all available products
+                            Xem những sản phẩm có sẵn
                         </p>
                         <button class="btn btn-outline-dark">
                             <a class="nav-link text-primary" href="{{ route('customer.products.index') }}">
-                                Product List
+                                Đến xem các sản phẩm
                             </a>
                         </button>
 
@@ -26,14 +26,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            Cart
+                            Giỏ hàng
                         </h5>
                         <p class="card-text">
-                            View products in your cart
+                            Xem những sản phẩm trong giỏ hàng
                         </p>
                         <button class="btn btn-outline-dark">
                             <a class="nav-link text-primary" href="{{ route('customer.cart.index') }}">
-                                Cart
+                                Đi tới giỏ hàng
                             </a>
                         </button>
                     </div>

@@ -167,25 +167,25 @@
                     <li class="nav-item">
                         <a href="{{ route('home') }}"
                             class="nav-link px-3 d-inline-flex align-items-center gap-1 {{ request()->routeIs('home') ? 'active' : '' }}">
-                            <i class="bi bi-house-door"></i> Home
+                            <i class="bi bi-house-door"></i> Trang chủ
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('customer.products.index') }}"
                             class="nav-link px-3 d-inline-flex align-items-center gap-1 {{ request()->routeIs('customer.products.*') ? 'active' : '' }}">
-                            <i class="bi bi-grid-3x3-gap"></i> Product List
+                            <i class="bi bi-grid-3x3-gap"></i> Danh sách sản phẩm
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('customer.cart.index') }}"
                             class="nav-link px-3 d-inline-flex align-items-center gap-1 {{ request()->routeIs('customer.cart.*') ? 'active' : '' }}">
-                            <i class="bi bi-cart3"></i> Cart
+                            <i class="bi bi-cart3"></i> Giỏ hàng
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('customer.orders.index') }}"
                             class="nav-link px-3 d-inline-flex align-items-center gap-1 {{ request()->routeIs('customer.orders.*') ? 'active' : '' }}">
-                            <i class="bi bi-receipt"></i> Orders
+                            <i class="bi bi-receipt"></i> Danh sách đơn hàng
                         </a>
                     </li>
                 </ul>
@@ -205,7 +205,7 @@
                         @csrf
                         <button type="submit"
                             class="btn btn-outline-secondary btn-sm text-light rounded-2 d-inline-flex align-items-center gap-1">
-                            <i class="bi bi-box-arrow-right"></i> Log out
+                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
                         </button>
                     </form>
                 </div>
@@ -249,7 +249,7 @@
     {{-- FOOTER --}}
     <footer class="bg-white border-top py-3 text-center text-muted small mt-5">
         <div class="container">
-            <p class="mb-0">© 2026 Simple Shop. All rights reserved.</p>
+            <p class="mb-0">© 2026 Simple Shop. Tất cả các quyền được bảo lưu.</p>
         </div>
     </footer>
 

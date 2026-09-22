@@ -17,10 +17,11 @@
                         <ol class="breadcrumb mb-0 small">
                             <li class="breadcrumb-item">
                                 <a href="{{ route('home') }}" class="text-decoration-none text-secondary">
-                                    <i class="bi bi-house-door-fill me-1"></i>Home
+                                    <i class="bi bi-house-door-fill me-1"></i>Trang chủ
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">Product List</li>
+                            <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">Danh sách sản phẩm
+                            </li>
                         </ol>
                     </nav>
                 </div>

@@ -22,12 +22,12 @@
 
                 <div>
                     <div class="fw-bold">
-                        AI Assistant
+                        Trợ lý AI
                     </div>
 
                     <small>
                         <span class="text-success">●</span>
-                        Online
+                        Trực tuyến
                     </small>
                 </div>
 
