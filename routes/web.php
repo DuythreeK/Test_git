@@ -9,6 +9,7 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
+use App\Http\Controllers\ProductVariantController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -73,6 +74,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('dashboard', DashboardController::class);
+    Route::post('products/{product}/variants', [ProductVariantController::class, 'store'])->name('variants.store');
+    Route::put('variants/{variant}', [ProductVariantController::class, 'update'])->name('variants.update');
+    Route::delete('variants/{variant}', [ProductVariantController::class, 'destroy'])->name('variants.destroy');
 });
 
 // Route::get('user/name/{name?}', function (?string $name = 'John'){
