@@ -7,17 +7,16 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function index(){
-        $users = User::paginate(1);
+        $users = User::paginate(10);
         return view("users.index",[
             "users"=> $users
         ]);
     }
     public function show($name){
-        $user = User::where('name', 'like', "%$name")->first();
+        $user = is_numeric($name) ? User::find($name) : User::where('name', 'like', "%$name%")->first();
         return view("users.show",[
             "user" => $user
         ]);
-
     }
     public function create(){
         return view("users.create");

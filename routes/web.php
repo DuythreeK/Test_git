@@ -54,7 +54,7 @@ Route::post('/chatbot/send', [\App\Http\Controllers\Customer\ChatbotController::
 
 
 //Customer Routes
-Route::prefix('customer')->middleware('customer')->name('customer.')->group(function () {
+Route::prefix('customer')->middleware('auth')->name('customer.')->group(function () {
     Route::resource('products', CustomerProductController::class);
     Route::resource('cart', CartController::class);
     Route::post('orders/checkout', [CustomerOrderController::class, 'checkout'])->name('orders.checkout');
