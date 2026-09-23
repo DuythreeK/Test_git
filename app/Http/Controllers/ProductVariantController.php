@@ -27,7 +27,7 @@ class ProductVariantController extends Controller
         $exists = ProductVariant::where('product_id', $product->id)
             ->where('size_id', $sizeId)->exists();
 
-        if (!$exists) {
+        if ($exists) {
             return back()->with('error', 'Kích cỡ này đã tồn tại cho sản phẩm. Bạn hãy cập nhật số lượng thay vì tạo mới.');
         }
 

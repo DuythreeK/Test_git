@@ -271,7 +271,7 @@
         {{-- FLASH MESSAGES --}}
         <div class="container-fluid px-3 px-lg-4 mt-3">
             @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm border-0"
+                <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm border border-success-subtle"
                     role="alert">
                     <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -279,7 +279,7 @@
             @endif
 
             @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0"
+                <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-danger-subtle"
                     role="alert">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -287,7 +287,7 @@
             @endif
 
             @if (isset($errors) && $errors->any())
-                <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0"
+                <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-danger-subtle"
                     role="alert">
                     <ul class="mb-0 ps-3">
                         @foreach ($errors->all() as $error)

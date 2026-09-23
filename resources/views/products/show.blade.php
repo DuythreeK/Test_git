@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Chi tiết sản phẩm: ' . $product->name . ' - Simple Shop Admin')
-
+{{-- 
 @php
     $allSizes = $allSizes ?? \App\Models\Size::orderBy('name')->get();
-@endphp
+@endphp --}}
 
 @section('content')
     <div class="container-fluid px-0">
@@ -16,20 +16,6 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
             </ol>
         </nav>
-
-        {{-- FLASH MESSAGES --}}
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-3" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
 
         <div class="row g-4">
             {{-- PRODUCT PREVIEW & QUICK INFO --}}
@@ -113,7 +99,7 @@
                                             @endif
                                         </td>
                                         <td class="text-end pe-3">
-                                            <div class="btn-group btn-group-sm">
+                                            <div class="d-inline-flex align-items-center gap-2">
                                                 {{-- Nút sửa biến thể --}}
                                                 <button type="button" class="btn btn-outline-primary"
                                                     data-bs-toggle="modal"
@@ -122,9 +108,8 @@
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
                                                 {{-- Nút xóa biến thể --}}
-                                                <form
-                                                    action="{{ Route::has('variants.destroy') ? route('variants.destroy', $variant) : url('admin/variants/' . $variant->id) }}"
-                                                    method="POST" class="d-inline"
+                                                <form action="{{ route('variants.destroy', $variant) }}" method="POST"
+                                                    class="d-inline"
                                                     onsubmit="return confirm('Bạn có chắc chắn muốn xóa kích cỡ Size {{ $variant->size->name ?? '' }} này không?')">
                                                     @csrf
                                                     @method('DELETE')
@@ -148,8 +133,7 @@
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"></button>
                                                         </div>
-                                                        <form
-                                                            action="{{ Route::has('variants.update') ? route('variants.update', $variant) : url('admin/variants/' . $variant->id) }}"
+                                                        <form action="{{ route('variants.update', $variant) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('PUT')

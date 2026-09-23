@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Size;
 use App\Services\ProductService;
 use App\Services\CategoryService;
 use Exception;
@@ -85,8 +86,9 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+        $allSizes = Size::orderBy('name')->get();
         $product = $this->productService->getById($product->id);
-        return view("products.show", ["product" => $product]);
+        return view("products.show", ["product" => $product, "allSizes" => $allSizes]);
 
     }
 

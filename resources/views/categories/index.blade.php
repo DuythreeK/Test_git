@@ -13,8 +13,8 @@
                 <p class="text-secondary small mb-0">Phân loại các dòng giày thể thao (Sneaker, Running, Casual...).</p>
             </div>
             <div>
-                <a class="btn btn-primary rounded-pill px-3 shadow-sm d-inline-flex align-items-center gap-1" 
-                   href="{{ route('categories.create') }}">
+                <a class="btn btn-primary rounded-pill px-3 shadow-sm d-inline-flex align-items-center gap-1"
+                    href="{{ route('categories.create') }}">
                     <i class="bi bi-plus-lg"></i> Thêm danh mục mới
                 </a>
             </div>
@@ -40,22 +40,23 @@
                                     </td>
                                     <td>
                                         <div class="fw-semibold text-dark fs-6">{{ $category->name }}</div>
-                                        @if(isset($category->description) && $category->description)
+                                        @if (isset($category->description) && $category->description)
                                             <small class="text-muted">{{ Str::limit($category->description, 60) }}</small>
                                         @endif
                                     </td>
                                     <td class="text-center pe-3">
                                         <div class="d-inline-flex gap-2">
-                                            <a class="btn btn-sm btn-outline-primary rounded-pill px-3" 
-                                               href="{{ route('categories.edit', $category) }}" title="Chỉnh sửa">
+                                            <a class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                                                href="{{ route('categories.edit', $category) }}" title="Chỉnh sửa">
                                                 <i class="bi bi-pencil me-1"></i> Sửa
                                             </a>
                                             <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                                                  class="d-inline"
-                                                  onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này? Các sản phẩm thuộc danh mục có thể bị ảnh hưởng.')">
+                                                class="d-inline"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này? Các sản phẩm thuộc danh mục có thể bị ảnh hưởng.')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" type="submit" title="Xóa">
+                                                <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    type="submit" title="Xóa">
                                                     <i class="bi bi-trash me-1"></i> Xóa
                                                 </button>
                                             </form>
@@ -74,7 +75,7 @@
                     </table>
                 </div>
             </div>
-            @if(method_exists($categories, 'hasPages') && $categories->hasPages())
+            @if (method_exists($categories, 'hasPages') && $categories->hasPages())
                 <div class="card-footer bg-white border-0 py-3 d-flex justify-content-center">
                     {{ $categories->links() }}
                 </div>
