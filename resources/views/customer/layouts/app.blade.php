@@ -190,7 +190,7 @@
                     </li>
                 </ul>
 
-                {{-- SEARCH & LOGOUT --}}
+                {{-- SEARCH & AUTH --}}
                 <div class="d-flex align-items-center gap-3">
                     <form action="{{ route('customer.products.index') }}" method="GET"
                         class="position-relative d-none d-md-block m-0">
@@ -201,13 +201,45 @@
                             style="right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.8rem;"></i>
                     </form>
 
-                    <form action="{{ route('logout') }}" method="POST" class="m-0">
-                        @csrf
-                        <button type="submit"
+                    @auth
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-outline-secondary btn-sm text-light rounded-2 d-inline-flex align-items-center gap-1 dropdown-toggle"
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                <span>{{ auth()->user()->name }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-2">
+                                <li>
+                                    <a class="dropdown-item py-2 small" href="{{ route('customer.orders.index') }}">
+                                        <i class="bi bi-receipt me-2 text-primary"></i>Đơn hàng của tôi
+                                    </a>
+                                </li>
+                                @if (auth()->user()->role === 'admin')
+                                    <li>
+                                        <a class="dropdown-item py-2 small" href="{{ route('dashboard.index') }}">
+                                            <i class="bi bi-speedometer2 me-2 text-primary"></i>Quản trị hệ thống</a>
+                                    </li>
+                                @endif
+                                <li>
+                                    <hr class="dropdown-divider my-1">
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item py-2 small text-danger"><i
+                                                class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}"
                             class="btn btn-outline-secondary btn-sm text-light rounded-2 d-inline-flex align-items-center gap-1">
-                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
-                        </button>
-                    </form>
+                            <i class="bi bi-person"></i>
+                            <span>Đăng nhập</span>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
