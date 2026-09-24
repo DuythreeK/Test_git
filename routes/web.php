@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductVariantController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,8 @@ Route::get('/', function () {
         return view('home');
     }
     if (auth()->user()->role === 'customer') {
-        return view('customer.home');
+        $categories = Category::withCount('products')->get();
+        return view('customer.home', compact('categories'));
     }
 })->name('home');
 //Guest Routes
