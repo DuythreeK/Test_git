@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderItem extends Model
 {
@@ -24,4 +25,13 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(Review::class, 'order_item_id');
+    }
+    // public function getProductAttribute()
+    // {
+    //     return $this->variant->product;
+    // }
 }
