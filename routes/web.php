@@ -10,6 +10,7 @@ use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -66,6 +67,7 @@ Route::prefix('customer')->middleware('auth')->name('customer.')->group(function
     Route::get('orders/vnpay-return', [CustomerOrderController::class, 'vnpayReturn'])->name('orders.vnpay');
     Route::get('orders/createpayment/{order}', [CustomerOrderController::class, 'createPayment'])->name('orders.createpayment');
     Route::get('orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 //Admin Routes

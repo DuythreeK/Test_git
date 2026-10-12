@@ -30,8 +30,28 @@ class OrderItem extends Model
     {
         return $this->hasOne(Review::class, 'order_item_id');
     }
-    // public function getProductAttribute()
-    // {
-    //     return $this->variant->product;
-    // }
+
+    public function getProductAttribute()
+    {
+        return $this->variant->product;
+    }
+    public function canReview()
+    {
+        $order = $this->order;
+        if (!$order) {
+            return false;
+        }
+
+        if ($order->user_id !== auth()->id()) {
+            return false;
+        }
+        if ($order->status !== 'completed') {
+            return false;
+        }
+        if ($this->review()->exists()) {
+            return false;
+        }
+        return true;
+    }
+
 }

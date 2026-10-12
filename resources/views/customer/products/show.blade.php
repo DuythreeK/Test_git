@@ -115,6 +115,41 @@
                 @endif
             </div>
         </div>
+        <div class="card shadow-sm border-light-subtle rounded-3 mt-4">
+            <div class="card-header">
+                <h5>
+                    <i class="bi bi-chat-left-heart me-2 text-warning"></i>Đánh giá từ khách hàng
+                </h5>
+                <div>
+                    @if ($product->averageRating() > 0)
+                        <span>{{ $product->averageRating() }}<i class="bi bi-star-fill text-warning"></i></span>
+                        <span class="text-muted">({{ $product->totalReviews() }} lượt đánh giá)</span>
+                    @else
+                        <span class="text-muted">Sản phẩm chưa có đánh giá</span>
+                    @endif
+                </div>
+            </div>
+            <div class="card-body">
+                @forelse ($product->reviews()->with('user')->get() as $review)
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-content-center mb-1">
+                            <span>{{ $review->user->name }}</span>
+                            <span>{{ $review->created_at->format('d/m/Y H:i') }}</span>
+                        </div>
+                        <div class="text-warning">
+                            {{-- <i class="bi bi-star-fill text-warning"></i> --}}
+                            {{ str_repeat('⭐', $review->rating) }}
+                        </div>
+                        <p class="text-secondary">{{ $review->comment ?? 'Khách hàng không để lại nhận xét' }}</p>
+                    </div>
+                @empty
+                    <div>
+                        <i class="bi bi-chat-square-dots fs-3 d-block mb-1 text-secondary"></i>
+                        Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên mua và đánh giá!
+                    </div>
+                @endforelse
+            </div>
+        </div>
 
         <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary mt-3 rounded-pill px-3">
             <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách sản phẩm

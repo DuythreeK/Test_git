@@ -51,4 +51,21 @@ class Product extends Model
         );
     }
 
+    public function reviews()
+    {
+        $reviews = Review::whereHas('orderItem.variant', function ($query) {
+            $query->where('product_id', $this->id);
+        })->latest();
+        return $reviews;
+    }
+
+    public function averageRating()
+    {
+        $avg = $this->reviews()->avg('rating');
+        return $avg ? round($avg, 1) : 0;
+    }
+    public function totalReviews()
+    {
+        return $this->reviews()->count();
+    }
 }
