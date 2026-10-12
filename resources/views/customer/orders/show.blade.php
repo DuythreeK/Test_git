@@ -112,6 +112,7 @@
                                         <th>Đơn giá</th>
                                         <th class="text-center">Số lượng</th>
                                         <th class="text-end">Thành tiền</th>
+                                        <th class="text-center">Đánh giá</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,6 +126,119 @@
                                             <td>{{ number_format($item->price) }}₫</td>
                                             <td class="text-center">{{ $item->quantity }}</td>
                                             <td class="text-end fw-bold text-danger">{{ number_format($item->subtotal) }}₫
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($item->review)
+                                                    <button type="button"
+                                                        class="badge bg-success-subtle text-success border border-success-subtle"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#showReviewModal{{ $item->id }}"
+                                                        title="Xem đánh giá">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        {{ $item->review->rating }}
+                                                    </button>
+                                                    <div class="modal fade" id="showReviewModal{{ $item->id }}">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h6 class="modal-title">
+                                                                        Đánh giá sản phẩm:
+                                                                        {{ $item->variant->product->name }}
+                                                                    </h6>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div>
+                                                                        <label class="form-label small fw-semibold">
+                                                                            Số sao:</label>
+                                                                        <div class="text-warning">
+                                                                            {{-- <i class="bi bi-star-fill text-warning"></i> --}}
+                                                                            {{ str_repeat('⭐', $item->review->rating) }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label class="form-label small fw-semibold">
+                                                                            Bình luận của bạn:
+                                                                        </label>
+                                                                        <p>{{ $item->review->comment }}</p>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-light border border-light-subtle rounded-pill"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif ($item->canReview())
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-primary rounded-pill"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#reviewModal{{ $item->id }}">
+                                                        <i class="bi bi-star me-1"></i>Đánh giá
+                                                    </button>
+
+                                                    <div class="modal fade text-start" id="reviewModal{{ $item->id }}">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h6 class="modal-title">
+                                                                        Đánh giá sản phẩm:
+                                                                        {{ $item->variant->product->name }}
+                                                                    </h6>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <form action="{{ route('customer.reviews.store') }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="order_item_id"
+                                                                        value="{{ $item->id }}">
+                                                                    <div class="modal-body">
+                                                                        <div>
+                                                                            <label class="form-label small fw-semibold">
+                                                                                Số sao:</label>
+                                                                            <select name="rating" class="form-select">
+                                                                                <option value="5">⭐⭐⭐⭐⭐ (5 sao - Rất
+                                                                                    tốt)
+                                                                                </option>
+                                                                                <option value="4">⭐⭐⭐⭐ (4 sao - Tốt)
+                                                                                </option>
+                                                                                <option value="3">⭐⭐⭐ (3 sao - Bình
+                                                                                    thường)
+                                                                                </option>
+                                                                                <option value="2">⭐⭐ (2 sao - Tệ)
+                                                                                </option>
+                                                                                <option value="1">⭐ (1 sao - Rất tệ)
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div>
+                                                                            <label class="form-label small fw-semibold">
+                                                                                Bình luận của bạn:
+                                                                            </label>
+                                                                            <textarea name="comment" class="form-control" placeholder="Chia sẻ cảm nhận về chất lượng sản phẩm, độ vừa vặn..."></textarea>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-light border border-light-subtle rounded-pill"
+                                                                            data-bs-dismiss="modal">Đóng</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary border border-primary-subtle rounded-pill fw-semibold">Gửi
+                                                                            đánh giá</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <span class="text-muted s">Chưa thể đánh giá</span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
