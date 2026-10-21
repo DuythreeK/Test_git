@@ -2,6 +2,76 @@
 
 @section('title', 'Danh sách sản phẩm - Simple Shop')
 
+@section('style')
+    <style>
+        /* ============================================================
+                                   CHẾ ĐỘ XEM DANH SÁCH (LIST VIEW)
+                                   ============================================================ */
+        :root {
+            --list-img-size-sm: 96px;
+            --list-img-size-md: 130px;
+            --list-gap: 1rem;
+        }
+
+        /* 1. Chuyển card từ dọc sang ngang */
+        .view-list .product-card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: var(--list-gap);
+            padding: var(--list-gap) !important;
+        }
+
+        /* 2. Cố định kích thước khung ảnh (ghi đè utility mb-2 của Bootstrap) */
+        .view-list .product-img-box {
+            width: var(--list-img-size-sm);
+            height: var(--list-img-size-sm);
+            min-width: var(--list-img-size-sm);
+            margin-bottom: 0 !important;
+            flex-shrink: 0;
+        }
+
+        /* 3. Ẩn nút wishlist nổi ở góc để tránh trùng lặp và đè lên ảnh */
+        .view-list .btn-floating-wishlist {
+            display: none !important;
+        }
+
+        /*
+                    /* 4. Responsive cho Tablet & Desktop (>= 768px) */
+        @media (min-width: 768px) {
+            .view-list .product-img-box {
+                width: var(--list-img-size-md);
+                height: var(--list-img-size-md);
+                min-width: var(--list-img-size-md);
+            }
+
+            /* Thông tin bên trái, Giá & Nút bấm bên phải */
+            .view-list .product-info {
+                flex-direction: row !important;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1.5rem;
+            }
+
+            .view-list .product-meta .text-truncate {
+                white-space: normal !important;
+            }
+
+            .view-list .product-side {
+                min-width: 180px;
+                margin-top: 0 !important;
+            }
+
+            .view-list .product-side .text-price {
+                margin-top: 0 !important;
+                font-size: 1.2rem;
+            }
+        }
+
+        */
+    </style>
+@endsection
+
 @section('content')
     <div class="container-fluid px-lg-4 py-3">
 
@@ -124,10 +194,11 @@
                     <div class="d-flex align-items-center gap-2">
                         {{-- Chế độ xem Grid / List --}}
                         <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-primary active" title="Dạng lưới">
+                            <button type="button" class="btn btn-primary active" id="btnGridView" title="Dạng lưới">
                                 <i class="bi bi-grid-fill"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-secondary" title="Dạng danh sách">
+                            <button type="button" class="btn btn-outline-secondary" id="btnListView"
+                                title="Dạng danh sách">
                                 <i class="bi bi-list-ul"></i>
                             </button>
                         </div>
@@ -144,7 +215,7 @@
                 </div>
 
                 {{-- 5-COLUMN PRODUCT GRID --}}
-                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-xl-5 g-3">
+                <div id="productContainer" class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-xl-5 g-3">
                     @forelse($products as $product)
                         @php
                             $hasStock = true;
@@ -190,56 +261,65 @@
                                 </div>
 
                                 {{-- Product Info --}}
-                                <div class="d-flex flex-column flex-grow-1 px-1">
-                                    <h6 class="text-truncate fw-bold text-dark mb-1" title="{{ $product->name }}"
-                                        style="font-size: 0.875rem;">
-                                        {{ $product->name }}
-                                    </h6>
+                                <div class="product-info d-flex flex-column flex-grow-1 px-1">
+                                    {{-- Cột trái: Thông tin sản phẩm --}}
+                                    <div class="product-meta flex-grow-1 pe-md-3">
+                                        <h6 class="text-truncate fw-bold text-dark mb-1" title="{{ $product->name }}"
+                                            style="font-size: 0.875rem;">
+                                            {{ $product->name }}
+                                        </h6>
 
-                                    {{-- Category Tag --}}
-                                    <div>
-                                        <span
-                                            class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1"
-                                            style="font-size: 0.7rem;">
-                                            {{ $product->category->name ?? 'Casual' }}
-                                        </span>
+                                        {{-- Category Tag --}}
+                                        <div>
+                                            <span
+                                                class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1"
+                                                style="font-size: 0.7rem;">
+                                                {{ $product->category->name ?? 'Casual' }}
+                                            </span>
+                                        </div>
+
+                                        {{-- Rating --}}
+                                        <div class="d-flex align-items-center gap-1 text-warning small mb-1"
+                                            style="font-size: 0.725rem;">
+                                            <i class="bi bi-star-fill"></i>
+                                            {{-- <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i> --}}
+                                            <span class="text-secondary ms-1">{{ $product->averageRating() }}
+                                                ({{ $product->totalReviews() }})
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    {{-- Rating --}}
-                                    <div class="d-flex align-items-center gap-1 text-warning small mb-1"
-                                        style="font-size: 0.725rem;">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
-                                        <span class="text-secondary ms-1">4.8 (120)</span>
-                                    </div>
+                                    {{-- Cột phải: Giá & Nút hành động --}}
+                                    <div class="product-side mt-auto text-md-end">
+                                        {{-- Price --}}
+                                        <div class="text-price fw-bold fs-6 mb-2">
+                                            {{ number_format($product->price) }}₫
+                                        </div>
 
-                                    {{-- Price --}}
-                                    <div class="text-price fw-bold fs-6 mt-auto mb-2">
-                                        {{ number_format($product->price) }}₫
-                                    </div>
+                                        {{-- Action Buttons --}}
+                                        <div class="d-flex gap-1 justify-content-md-end">
+                                            @if ($hasStock)
+                                                <a href="{{ route('customer.products.show', $product) }}"
+                                                    class="btn btn-primary btn-sm rounded-2 flex-grow-1 flex-md-grow-0 d-inline-flex align-items-center justify-content-center gap-1 fw-semibold"
+                                                    style="font-size: 0.775rem;">
+                                                    <i class="bi bi-cart3"></i> Chi tiết
+                                                </a>
+                                            @else
+                                                <button
+                                                    class="btn btn-secondary btn-sm rounded-2 flex-grow-1 flex-md-grow-0 disabled"
+                                                    style="font-size: 0.775rem;" disabled>
+                                                    <i class="bi bi-slash-circle"></i> Hết hàng
+                                                </button>
+                                            @endif
 
-                                    {{-- Action Buttons --}}
-                                    <div class="d-flex gap-1">
-                                        @if ($hasStock)
-                                            <a href="{{ route('customer.products.show', $product) }}"
-                                                class="btn btn-primary btn-sm rounded-2 flex-grow-1 d-inline-flex align-items-center justify-content-center gap-1 fw-semibold"
-                                                style="font-size: 0.775rem;">
-                                                <i class="bi bi-cart3"></i> Chi tiết
-                                            </a>
-                                        @else
-                                            <button class="btn btn-secondary btn-sm rounded-2 flex-grow-1 disabled"
-                                                style="font-size: 0.775rem;" disabled>
-                                                <i class="bi bi-slash-circle"></i> Hết hàng
+                                            <button class="btn btn-outline-secondary btn-sm rounded-2 px-2" type="button"
+                                                title="Thêm vào yêu thích">
+                                                <i class="bi bi-heart"></i>
                                             </button>
-                                        @endif
-
-                                        <button class="btn btn-outline-secondary btn-sm rounded-2 px-2" type="button"
-                                            title="Thêm vào yêu thích">
-                                            <i class="bi bi-heart"></i>
-                                        </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -276,5 +356,39 @@
             url.searchParams.set(key, value);
             return url.href;
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnGrid = document.getElementById('btnGridView');
+            const btnList = document.getElementById('btnListView');
+            const container = document.getElementById('productContainer');
+            if (!btnGrid || !btnList || !container) return;
+            const GRID_COLS = ['row-cols-2', 'row-cols-sm-3', 'row-cols-md-3', 'row-cols-xl-5'];
+
+            function setView(mode) {
+                const isList = mode === 'list';
+
+                //Đổi chế độ xem giữa Grid và List
+                container.classList.toggle('view-list', isList);
+                container.classList.toggle('row-cols-1', isList);
+                GRID_COLS.forEach(c => container.classList.toggle(c, !isList));
+
+                //Đổi trạng thái của Nút
+                btnList.classList.toggle('btn-primary', isList);
+                btnList.classList.toggle('active', isList);
+                btnList.classList.toggle('btn-outline-secondary', !isList);
+
+                btnGrid.classList.toggle('btn-primary', !isList);
+                btnGrid.classList.toggle('active', !isList);
+                btnGrid.classList.toggle('btn-outline-secondary', isList);
+
+                localStorage.setItem('product_view_mode', mode);
+
+            }
+            btnGrid.addEventListener('click', () => setView('grid'));
+            btnList.addEventListener('click', () => setView('list'));
+
+            if (localStorage.getItem('product_view_mode') === 'list') {
+                setView('list');
+            }
+        });
     </script>
 @endsection

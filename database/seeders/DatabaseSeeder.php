@@ -59,10 +59,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SizeSeeder::class);
         //PRODUCT
         $products = Product::factory(100)->make()
-        ->each(function ($product) use ($categoryModels) {
-            $product->category_id = $categoryModels->random()->id;
-            $product->save();
-        });
+            ->each(function ($product) use ($categoryModels) {
+                $product->category_id = $categoryModels->random()->id;
+                $product->save();
+            });
 
         //PRODUCT_VARIANT
         $this->call(ProductVariantSeeder::class);
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             foreach ($cartVariants as $variant) {
                 CartItem::create([
                     'cart_id' => $cart->id,
-                    'product_variant_id' => $variant -> id,
+                    'product_variant_id' => $variant->id,
                     'quantity' => rand(1, 3),
                 ]);
             }
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
         //ORDER
         $users->each(function ($user) use ($variants, $products) {
 
-            $orders = Order::factory(rand(2, 5))-> make();
+            $orders = Order::factory(rand(2, 5))->make();
 
             foreach ($orders as $order) {
                 $order->user_id = $user->id;
@@ -112,5 +112,6 @@ class DatabaseSeeder extends Seeder
                 $order->update(['total_price' => $total]);
             }
         });
+        $this->call(ReviewSeeder::class);
     }
 }
