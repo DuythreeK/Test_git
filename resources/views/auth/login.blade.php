@@ -39,8 +39,8 @@
                             id="email" value="{{ old('email') }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input class="form-control" placeholder="Nhập password" type="password" name="password"
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input class="form-control" placeholder="Nhập mật khẩu" type="password" name="password"
                             required>
                     </div>
                     <div class="d-grid mb-3">

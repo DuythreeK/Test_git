@@ -9,10 +9,13 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
+use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SizeController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +37,8 @@ Route::get('/', function () {
         return view('home');
     }
     if (auth()->user()->role === 'customer') {
-        return view('customer.home');
+        $categories = Category::withCount('products')->get();
+        return view('customer.home', compact('categories'));
     }
 })->name('home');
 //Guest Routes
@@ -55,7 +59,7 @@ Route::post('/chatbot/send', [\App\Http\Controllers\Customer\ChatbotController::
 
 
 //Customer Routes
-Route::prefix('customer')->middleware('customer')->name('customer.')->group(function () {
+Route::prefix('customer')->middleware('auth')->name('customer.')->group(function () {
     Route::resource('products', CustomerProductController::class);
     Route::resource('cart', CartController::class);
     Route::post('orders/checkout', [CustomerOrderController::class, 'checkout'])->name('orders.checkout');
@@ -64,6 +68,7 @@ Route::prefix('customer')->middleware('customer')->name('customer.')->group(func
     Route::get('orders/vnpay-return', [CustomerOrderController::class, 'vnpayReturn'])->name('orders.vnpay');
     Route::get('orders/createpayment/{order}', [CustomerOrderController::class, 'createPayment'])->name('orders.createpayment');
     Route::get('orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 //Admin Routes
@@ -75,6 +80,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('dashboard', DashboardController::class);
+    Route::post('products/{product}/variants', [ProductVariantController::class, 'store'])->name('variants.store');
+    Route::put('variants/{variant}', [ProductVariantController::class, 'update'])->name('variants.update');
+    Route::delete('variants/{variant}', [ProductVariantController::class, 'destroy'])->name('variants.destroy');
 });
 
 // Route::get('user/name/{name?}', function (?string $name = 'John'){

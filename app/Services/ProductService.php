@@ -31,7 +31,8 @@ class ProductService
                 $filters['sort'] ?? null,
                 fn($q, $sort) => $q->orderBy('price', $sort)
             );
-        return $products->paginate(15);
+        $perPage = $filters['per_page'] ?? 10;
+        return $products->paginate($perPage);
 
     }
     public function getById($id)

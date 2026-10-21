@@ -1,112 +1,158 @@
 @extends('customer.layouts.app')
 
-@section('title', 'Product Detail')
+@section('title', 'Chi tiết sản phẩm - ' . $product->name)
+
 @section('style')
     <style>
         #tbl tr th {
-            background-color: black;
+            background-color: #111827;
             color: white;
+            width: 25%;
         }
     </style>
 @endsection
+
 @section('content')
-    <div class="container">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h5>
-                    Product Detail
+    <div class="container py-4">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('home') }}" class="text-decoration-none text-secondary">
+                        <i class="bi bi-house-door-fill me-1"></i>Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('customer.products.index') }}" class="text-decoration-none text-secondary">
+                        Danh sách sản phẩm
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">{{ $product->name }}</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm border-light-subtle rounded-3">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="bi bi-info-circle me-2 text-primary"></i>Chi tiết sản phẩm
                 </h5>
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-striped" id="tbl">
+                <table class="table table-bordered table-striped align-middle" id="tbl">
                     <tr>
-
-                        <th>Name</th>
-
-                        <td>{{ $product->name }}</td>
-
+                        <th>Tên sản phẩm</th>
+                        <td class="fw-semibold">{{ $product->name }}</td>
                     </tr>
-
                     <tr>
-
-                        <th>Category</th>
-
-                        <td>{{ $product->category->name }}</td>
-
+                        <th>Danh mục</th>
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                {{ $product->category->name }}
+                            </span>
+                        </td>
                     </tr>
-
                     <tr>
-
-                        <th>Price</th>
-
-                        <td>{{ number_format($product->price) }}</td>
-
+                        <th>Đơn giá</th>
+                        <td class="text-danger fw-bold fs-5">{{ number_format($product->price) }} VNĐ</td>
                     </tr>
-
                     <tr>
-
-                        <th>Description</th>
-
-                        <td>{{ $product->description }}</td>
-
+                        <th>Mô tả</th>
+                        <td>{{ $product->description ?? 'Đang cập nhật mô tả cho sản phẩm này.' }}</td>
                     </tr>
                     @if ($product->image)
                         <tr>
-                            <th>Image</th>
-                            <td><img src="{{ asset('storage/' . $product->image) }}" class="img-fuild w-50"></td>
+                            <th>Hình ảnh</th>
+                            <td>
+                                <img src="{{ asset('storage/' . $product->image) }}" class="img-thumbnail"
+                                    style="max-height: 250px; object-fit: contain;">
+                            </td>
                         </tr>
                     @endif
-
                 </table>
-                <br>
+
+                <hr class="my-4">
+
                 @if ($product->variants->count() > 0)
-                    <form action="{{ route('customer.cart.store') }}" method='POST'>
+                    <form action="{{ route('customer.cart.store') }}" method="POST">
                         @csrf
-                        {{-- Size --}}
+                        {{-- Chọn kích cỡ (Size) --}}
                         <div class="mb-3">
-                            <label class="form-label">
-                                <strong>Size</strong>
+                            <label class="form-label fw-bold">
+                                Chọn kích cỡ (Size):
                             </label>
                             <div class="d-flex gap-2 flex-wrap">
                                 @foreach ($product->variants as $variant)
                                     <input type="radio" class="btn-check" name="product_variant_id"
                                         id="size-{{ $variant->id }}" value="{{ $variant->id }}"
-                                        {{ $variant->stock <= 0 ? 'disabled' : '' }}>
-                                    <label class="btn btn-outline-primary size-option" for="size-{{ $variant->id }}">
-                                        Size {{ $variant->size->name }}
+                                        {{ $variant->stock <= 0 ? 'disabled' : '' }} required>
+                                    <label class="btn btn-outline-primary size-option rounded-3 p-2"
+                                        for="size-{{ $variant->id }}">
+                                        <strong>Size {{ $variant->size->name }}</strong>
                                         @if ($variant->stock <= 0)
-                                            <small class="d-block"> Out of stock </small>
+                                            <small class="d-block text-danger">Hết hàng</small>
                                         @else
-                                            <small class="d-block"> Stock: {{ $variant->stock }} </small>
+                                            <small class="d-block text-muted">Còn: {{ $variant->stock }}</small>
                                         @endif
                                     </label>
                                 @endforeach
                             </div>
                         </div>
-                        <div class="d-flex mb-3 align-content-center">
-                            <label class="me-3">Quantity</label>
-                            <input class="form-control" type="number" name="quantity" value="1" min="1"
-                                style="width: 100px">
+
+                        {{-- Số lượng --}}
+                        <div class="d-flex mb-3 align-items-center gap-3">
+                            <label class="fw-semibold">Số lượng:</label>
+                            <input class="form-control form-control-sm" type="number" name="quantity" value="1"
+                                min="1" style="width: 100px" required>
                         </div>
-                        <button type="submit" class="btn btn-outline-success">
-                            Add to Cart
+
+                        <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold shadow-sm">
+                            <i class="bi bi-cart-plus me-1"></i> Thêm vào giỏ hàng
                         </button>
                     </form>
                 @else
-                    <p><strong>Out of stock</strong></p>
+                    <div class="alert alert-warning d-inline-block">
+                        <i class="bi bi-exclamation-triangle me-1"></i> Sản phẩm hiện đang tạm hết hàng.
+                    </div>
                 @endif
-
-
-                <br>
-
-
             </div>
         </div>
-        <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary mt-2 mb-2">
+        <div class="card shadow-sm border-light-subtle rounded-3 mt-4">
+            <div class="card-header">
+                <h5>
+                    <i class="bi bi-chat-left-heart me-2 text-warning"></i>Đánh giá từ khách hàng
+                </h5>
+                <div>
+                    @if ($product->averageRating() > 0)
+                        <span>{{ $product->averageRating() }}<i class="bi bi-star-fill text-warning"></i></span>
+                        <span class="text-muted">({{ $product->totalReviews() }} lượt đánh giá)</span>
+                    @else
+                        <span class="text-muted">Sản phẩm chưa có đánh giá</span>
+                    @endif
+                </div>
+            </div>
+            <div class="card-body">
+                @forelse ($product->reviews()->with('user')->get() as $review)
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-content-center mb-1">
+                            <span>{{ $review->user->name }}</span>
+                            <span>{{ $review->created_at->format('d/m/Y H:i') }}</span>
+                        </div>
+                        <div class="text-warning">
+                            {{-- <i class="bi bi-star-fill text-warning"></i> --}}
+                            {{ str_repeat('⭐', $review->rating) }}
+                        </div>
+                        <p class="text-secondary">{{ $review->comment ?? 'Khách hàng không để lại nhận xét' }}</p>
+                    </div>
+                @empty
+                    <div>
+                        <i class="bi bi-chat-square-dots fs-3 d-block mb-1 text-secondary"></i>
+                        Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên mua và đánh giá!
+                    </div>
+                @endforelse
+            </div>
+        </div>
 
-            Back
-
+        <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary mt-3 rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách sản phẩm
         </a>
     </div>
-
 @endsection
