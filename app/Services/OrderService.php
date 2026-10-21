@@ -13,7 +13,7 @@ class OrderService
 {
     public function getAll()
     {
-        $orders = Order::with('user')->paginate(10);
+        $orders = Order::with('user')->latest()->paginate(10);
         return $orders;
     }
     public function getById($id)

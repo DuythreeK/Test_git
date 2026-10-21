@@ -19,7 +19,6 @@
                 </a>
             </div>
         </div>
-
         {{-- TABLE CARD --}}
         <div class="card border-0 rounded-4 shadow-sm bg-white overflow-hidden">
             <div class="card-body p-0">

@@ -323,6 +323,7 @@
         }
     </script>
     @yield('script')
+    <x-toast />
 </body>
 
 </html>
