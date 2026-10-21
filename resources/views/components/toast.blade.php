@@ -189,10 +189,10 @@
         };
 
         const defaultTitles = {
-            success: 'Success',
-            error: 'Error',
-            warning: 'Warning',
-            info: 'Infor'
+            success: 'Thành công',
+            error: 'Lỗi',
+            warning: 'Cảnh báo',
+            info: 'Thông tin'
         };
 
         function getContainer() {

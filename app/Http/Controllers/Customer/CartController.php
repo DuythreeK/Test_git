@@ -55,7 +55,7 @@ class CartController extends Controller
 
         try {
             $this->cartService->store($validated);
-            return redirect()->route('customer.cart.index')->with('success', 'Product added to cart successfully.');
+            return redirect()->route('customer.cart.index')->with('success', 'Sản phẩm được thêm vào giỏ hàng thành công.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', '$e->getMessage()');
         }
@@ -99,7 +99,7 @@ class CartController extends Controller
 
         try {
             $this->cartService->updateQuantity($validated, $id);
-            return redirect()->route('customer.cart.index')->with('success', 'Cart updated successfully.');
+            return redirect()->route('customer.cart.index')->with('success', 'Đã cập nhật thông tin giỏ hàng.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -115,6 +115,6 @@ class CartController extends Controller
     {
         //
         $this->cartService->destroyItem($id);
-        return redirect()->route('customer.cart.index');
+        return redirect()->route('customer.cart.index')->with('success', 'Sản phẩm đã đươc xóa khỏi giỏ hàng.');
     }
 }
